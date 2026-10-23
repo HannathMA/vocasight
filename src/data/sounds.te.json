@@ -1,0 +1,167 @@
+{
+  "language": "te",
+  "name": "తెలుగు (Telugu)",
+  "whisperLang": "telugu",
+  "scriptCode": "te",
+  "sounds": [
+    {
+      "id": "te-retro-la",
+      "symbol": "ళ",
+      "translit": "ḷa",
+      "tip": "నాలుకను అంగిలికి తాకించి మృదువుగా పలకండి (Retroflex la)",
+      "words": [
+        {
+          "text": "తాళం",
+          "translit": "taalam",
+          "meaning": "Key / Lock",
+          "icon": "🔑",
+          "audio": "/audio/te/taalam.mp3",
+          "image": "https://images.unsplash.com/photo-1582139329536-e7284fece509?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "నీళ్లు",
+          "translit": "neellu",
+          "meaning": "Water",
+          "icon": "💧",
+          "audio": "/audio/te/neellu.mp3",
+          "image": "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "మేళం",
+          "translit": "melam",
+          "meaning": "Music Band",
+          "icon": "🥁",
+          "audio": "/audio/te/melam.mp3",
+          "image": "https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ళా", "ళీ", "ళూ", "ళే"],
+      "phrase": "మంచి నీళ్లు",
+      "sentence": "పిల్లవాడు శుభ్రమైన నీళ్లు తాగుతాడు",
+      "targetMouth": {
+        "jawOpen": [0.2, 0.55],
+        "mouthStretch": [0.15, 0.5]
+      },
+      "quest": {
+        "area": "crystal-springs",
+        "name": "Crystal Water Springs",
+        "themeColor": "#0284C7",
+        "icon": "💧",
+        "unlockAfter": 0
+      },
+      "minimalPairs": ["ల", "డ"]
+    },
+    {
+      "id": "te-retro-ta",
+      "symbol": "ట",
+      "translit": "ṭa",
+      "tip": "నాలుక అంచును గట్టిగా తాకించి ట శబ్దం పలకండి",
+      "words": [
+        {
+          "text": "టమాటా",
+          "translit": "tamaata",
+          "meaning": "Tomato",
+          "icon": "🍅",
+          "audio": "/audio/te/tamaata.mp3",
+          "image": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "టోపీ",
+          "translit": "topi",
+          "meaning": "Cap",
+          "icon": "🧢",
+          "audio": "/audio/te/topi.mp3",
+          "image": "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "బుట్ట",
+          "translit": "butta",
+          "meaning": "Basket",
+          "icon": "🧺",
+          "audio": "/audio/te/butta.mp3",
+          "image": "https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["టా", "టీ", "టూ", "టే"],
+      "phrase": "ఎర్రటి టమాటా",
+      "sentence": "బుట్టలో తాజా ఎర్రటి టమాటాలు ఉన్నాయి",
+      "targetMouth": {
+        "jawOpen": [0.18, 0.52],
+        "mouthSmile": [0.15, 0.5]
+      },
+      "quest": {
+        "area": "golden-orchard",
+        "name": "Golden Fruit Orchard",
+        "themeColor": "#E11D48",
+        "icon": "🍎",
+        "unlockAfter": 2
+      },
+      "minimalPairs": ["త", "చ"]
+    },
+    {
+      "id": "te-retro-da",
+      "symbol": "డ",
+      "translit": "ḍa",
+      "tip": "నాలుకను పైకి మడచి డ శబ్దం పలకండి",
+      "words": [
+        {
+          "text": "డబ్బా",
+          "translit": "dabba",
+          "meaning": "Box / Canister",
+          "icon": "📦",
+          "audio": "/audio/te/dabba.mp3",
+          "image": "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "గుడ్డు",
+          "translit": "guddu",
+          "meaning": "Egg",
+          "icon": "🥚",
+          "audio": "/audio/te/guddu.mp3",
+          "image": "https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "దండ",
+          "translit": "danda",
+          "meaning": "Garland",
+          "icon": "💐",
+          "audio": "/audio/te/danda.mp3",
+          "image": "https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["డా", "డీ", "డూ", "డే"],
+      "phrase": "రంగుల డబ్బా",
+      "sentence": "రంగుల డబ్బాలో చక్కని బొమ్మలు ఉన్నాయి",
+      "targetMouth": {
+        "jawOpen": [0.2, 0.55],
+        "mouthSmile": [0.1, 0.45]
+      },
+      "quest": {
+        "area": "rainbow-haven",
+        "name": "Rainbow Garden Valley",
+        "themeColor": "#8B5CF6",
+        "icon": "🌈",
+        "unlockAfter": 4
+      },
+      "minimalPairs": ["ద", "ర"]
+    }
+  ],
+  "buddyPhrases": {
+    "encourage": [
+      "చాలా బాగుంది నేస్తం! ఇద్దరం కలిసి పలుకుదాం!",
+      "మంచి ప్రయత్నం! చక్కగా నవ్వి మళ్ళీ చెప్పండి!",
+      "మీరు చాలా బాగా నేర్చుకుంటున్నారు!"
+    ],
+    "retry": [
+      "ఏం పర్వాలేదు, నిదానంగా స్పష్టంగా పలుకుదాం!",
+      "అద్దంలో చూస్తూ నోరు కొద్దిగా తెరిచి చెప్పండి!",
+      "మనసు ప్రశాంతంగా ఉంచి మళ్ళీ ఒకసారి!"
+    ],
+    "celebrate": [
+      "శభాష్! అద్భుతమైన ఉచ్చారణ!",
+      "హుర్రే! మీకు మెరిసే బంగారు నక్షత్రం దక్కింది!",
+      "మీ గొంతు ఎంతో మధురంగా ఉంది!"
+    ],
+    "dailyQuest": "ఈనాటి మిషన్: ళ మరియు ట అక్షరాలను స్పష్టంగా పలుకుతూ అన్వేషించండి!"
+  }
+}

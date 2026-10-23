@@ -1,0 +1,167 @@
+{
+  "language": "hi",
+  "name": "हिन्दी (Hindi)",
+  "whisperLang": "hindi",
+  "scriptCode": "hi",
+  "sounds": [
+    {
+      "id": "flap-rha",
+      "symbol": "ड़",
+      "translit": "ṛa",
+      "tip": "जीभ को तालू पर हल्का सा छूकर नीचे गिराएं (Flap tongue softly against palate)",
+      "words": [
+        {
+          "text": "पेड़",
+          "translit": "ped",
+          "meaning": "Tree",
+          "icon": "🌳",
+          "audio": "/audio/hi/ped.mp3",
+          "image": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "चिड़िया",
+          "translit": "chidiya",
+          "meaning": "Little Bird",
+          "icon": "🐦",
+          "audio": "/audio/hi/chidiya.mp3",
+          "image": "https://images.unsplash.com/photo-1522926197415-e55c22c88c71?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "सड़क",
+          "translit": "sadak",
+          "meaning": "Road",
+          "icon": "🛣️",
+          "audio": "/audio/hi/sadak.mp3",
+          "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ड़ा", "ड़ी", "ड़ू", "ड़े"],
+      "phrase": "पेड़ हरा है",
+      "sentence": "चिड़िया पेड़ की डाल पर गाती है",
+      "targetMouth": {
+        "jawOpen": [0.18, 0.52],
+        "mouthStretch": [0.15, 0.5]
+      },
+      "quest": {
+        "area": "emerald-forest",
+        "name": "Emerald Tree Haven",
+        "themeColor": "#059669",
+        "icon": "🌲",
+        "unlockAfter": 0
+      },
+      "minimalPairs": ["द", "र"]
+    },
+    {
+      "id": "flap-rhha",
+      "symbol": "ढ़",
+      "translit": "ṛha",
+      "tip": "गहरी सांस के साथ जीभ को झटके से पीछे से आगे लाएं (Aspirated retroflex flap)",
+      "words": [
+        {
+          "text": "सीढ़ी",
+          "translit": "seedhi",
+          "meaning": "Stairs",
+          "icon": "🪜",
+          "audio": "/audio/hi/seedhi.mp3",
+          "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "पढ़ाई",
+          "translit": "padhai",
+          "meaning": "Studying",
+          "icon": "📚",
+          "audio": "/audio/hi/padhai.mp3",
+          "image": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "गढ़",
+          "translit": "gadh",
+          "meaning": "Fort / Castle",
+          "icon": "🏰",
+          "audio": "/audio/hi/gadh.mp3",
+          "image": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ढ़ा", "ढ़ी", "ढ़ू", "ढ़े"],
+      "phrase": "सीढ़ी चढ़ो",
+      "sentence": "बच्चा खुशी से सीढ़ी पर चढ़ता है",
+      "targetMouth": {
+        "jawOpen": [0.22, 0.58],
+        "mouthFunnel": [0.1, 0.5]
+      },
+      "quest": {
+        "area": "crystal-mountain",
+        "name": "Crystal Mountain Peak",
+        "themeColor": "#8B5CF6",
+        "icon": "⛰️",
+        "unlockAfter": 2
+      },
+      "minimalPairs": ["ध", "ह"]
+    },
+    {
+      "id": "retro-ta",
+      "symbol": "ट",
+      "translit": "ṭa",
+      "tip": "जीभ को ऊपर की छत पर लगाकर साफ आवाज़ निकालें (Hard tongue touch on palate)",
+      "words": [
+        {
+          "text": "टमाटर",
+          "translit": "tamaatar",
+          "meaning": "Tomato",
+          "icon": "🍅",
+          "audio": "/audio/hi/tamaatar.mp3",
+          "image": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "टोपी",
+          "translit": "topi",
+          "meaning": "Cap / Hat",
+          "icon": "🧢",
+          "audio": "/audio/hi/topi.mp3",
+          "image": "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "टोकरी",
+          "translit": "tokari",
+          "meaning": "Basket",
+          "icon": "🧺",
+          "audio": "/audio/hi/tokari.mp3",
+          "image": "https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["टा", "टी", "टू", "टे"],
+      "phrase": "लाल टमाटर",
+      "sentence": "टोकरी में मीठे और लाल टमाटर हैं",
+      "targetMouth": {
+        "jawOpen": [0.18, 0.5],
+        "mouthSmile": [0.15, 0.5]
+      },
+      "quest": {
+        "area": "sunshine-valley",
+        "name": "Sunshine Farm Valley",
+        "themeColor": "#F59E0B",
+        "icon": "☀️",
+        "unlockAfter": 4
+      },
+      "minimalPairs": ["त", "च"]
+    }
+  ],
+  "buddyPhrases": {
+    "encourage": [
+      "बहुत बढ़िया दोस्त! चलो साथ मिलकर बोलते हैं!",
+      "शानदार कोशिश! मुस्कुराइए और दोबारा कहिए!",
+      "आप बहुत अच्छा सीख रहे हैं, एक बार और!"
+    ],
+    "retry": [
+      "कोई बात नहीं प्यारे बच्चे, आराम से धीमे-धीमे बोलें!",
+      "आईने में देखकर मुंह थोड़ा और खोलें!",
+      "हम मिलकर कहेंगे, कोई जल्दी नहीं है!"
+    ],
+    "celebrate": [
+      "वाह! क्या शानदार आवाज़ निकाली आपने!",
+      "हुर्रे! आपको मिला एक चमकता सितारा!",
+      "लाजवाब! आपका उच्चारण बहुत प्यारा है!"
+    ],
+    "dailyQuest": "आज का मिशन: जादुई पहाड़ पर चढ़कर ड़ और ट की आवाज दोहराएं!"
+  }
+}

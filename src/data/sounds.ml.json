@@ -1,0 +1,168 @@
+{
+  "language": "ml",
+  "name": "മലയാളം (Malayalam)",
+  "whisperLang": "malayalam",
+  "scriptCode": "ml",
+  "sounds": [
+    {
+      "id": "zha",
+      "symbol": "ഴ",
+      "translit": "zha",
+      "tip": "ചുണ്ടുകൾ അല്പം തുറന്ന് നാക്കിന്റെ അറ്റം മുകളിലേക്ക് വളയ്ക്കുക (Curl tongue back softly, lips rounded slightly)",
+      "words": [
+        {
+          "text": "മഴ",
+          "translit": "mazha",
+          "meaning": "Rain",
+          "icon": "🌧️",
+          "audio": "/audio/ml/mazha.mp3",
+          "image": "https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "പഴം",
+          "translit": "pazham",
+          "meaning": "Fruit / Banana",
+          "icon": "🍌",
+          "audio": "/audio/ml/pazham.mp3",
+          "image": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "വഴി",
+          "translit": "vazhi",
+          "meaning": "Path / Way",
+          "icon": "🛤️",
+          "audio": "/audio/ml/vazhi.mp3",
+          "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ഴ", "ഴി", "ഴു", "ഴെ"],
+      "phrase": "മഴ പെയ്യുന്നു",
+      "sentence": "മഴത്തുള്ളികൾ മണ്ണിൽ വീഴുന്നു",
+      "targetMouth": {
+        "jawOpen": [0.15, 0.45],
+        "mouthFunnel": [0.15, 0.65],
+        "mouthPucker": [0.05, 0.4]
+      },
+      "quest": {
+        "area": "rain-forest",
+        "name": "Rain Forest Oasis",
+        "themeColor": "#059669",
+        "icon": "🌴",
+        "unlockAfter": 0
+      },
+      "minimalPairs": ["ള", "യ"]
+    },
+    {
+      "id": "retro-la",
+      "symbol": "ള",
+      "translit": "retroflex la",
+      "tip": "നാക്കിന്റെ അടിഭാഗം അണ്ണാക്കിൽ മുട്ടിച്ചു ശബ്ദം ഉണ്ടാക്കുക (Retroflex tongue contact)",
+      "words": [
+        {
+          "text": "കിളി",
+          "translit": "kili",
+          "meaning": "Bird",
+          "icon": "🦜",
+          "audio": "/audio/ml/kili.mp3",
+          "image": "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "കളി",
+          "translit": "kali",
+          "meaning": "Play / Game",
+          "icon": "⚽",
+          "audio": "/audio/ml/kali.mp3",
+          "image": "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "വെള്ളം",
+          "translit": "vellam",
+          "meaning": "Water",
+          "icon": "💧",
+          "audio": "/audio/ml/vellam.mp3",
+          "image": "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ള", "ളി", "ളു", "ളെ"],
+      "phrase": "കിളി പാടുന്നു",
+      "sentence": "കുട്ടി പന്ത് കളി ആസ്വദിക്കുന്നു",
+      "targetMouth": {
+        "jawOpen": [0.2, 0.55],
+        "mouthStretch": [0.15, 0.55]
+      },
+      "quest": {
+        "area": "magical-garden",
+        "name": "Magical Flower Garden",
+        "themeColor": "#DB2777",
+        "icon": "🌺",
+        "unlockAfter": 2
+      },
+      "minimalPairs": ["ല", "റ"]
+    },
+    {
+      "id": "hard-ra",
+      "symbol": "റ",
+      "translit": "hard ra",
+      "tip": "നാവ് വായുടെ മുകളിൽ വെച്ച് ശക്തിയായി ഉച്ചരിക്കുക (Alveolar tap / trill)",
+      "words": [
+        {
+          "text": "പറവ",
+          "translit": "parava",
+          "meaning": "Flying Bird",
+          "icon": "🦅",
+          "audio": "/audio/ml/parava.mp3",
+          "image": "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "കുറുക്കൻ",
+          "translit": "kurukkan",
+          "meaning": "Fox",
+          "icon": "🦊",
+          "audio": "/audio/ml/kurukkan.mp3",
+          "image": "https://images.unsplash.com/photo-1516934024742-b461fba47600?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "മുറം",
+          "translit": "muram",
+          "meaning": "Winnowing Tray",
+          "icon": "🧺",
+          "audio": "/audio/ml/muram.mp3",
+          "image": "https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["റ", "റി", "റു", "റെ"],
+      "phrase": "പറവ പറക്കുന്നു",
+      "sentence": "കുറുക്കൻ കാട്ടിലൂടെ വേഗത്തിൽ ഓടുന്നു",
+      "targetMouth": {
+        "jawOpen": [0.15, 0.5],
+        "mouthSmile": [0.15, 0.55]
+      },
+      "quest": {
+        "area": "adventure-river",
+        "name": "Adventure River Stream",
+        "themeColor": "#2563EB",
+        "icon": "⛵",
+        "unlockAfter": 4
+      },
+      "minimalPairs": ["ര", "ട"]
+    }
+  ],
+  "buddyPhrases": {
+    "encourage": [
+      "മിടുക്കൻ / മിടുക്കി! നമുക്ക് ഒരുമിച്ച് പറയാം!",
+      "വളരെ നന്നായിരിക്കുന്നു, വീണ്ടും ഒന്നു ശ്രമിക്കൂ!",
+      "നിങ്ങൾ വളരെ മിടുക്കനാണ്, സന്തോഷത്തോടെ പറയൂ!"
+    ],
+    "retry": [
+      "സാരമില്ല കൂട്ടുകാരാ, നമുക്ക് ഒന്നുകൂടി സാവധാനം പറയാം!",
+      "നന്നായി വരുന്നുണ്ട്! വായ കൂടുതൽ തുറന്ന് ഒന്നുകൂടി പറയൂ!",
+      "നമുക്ക് ഒപ്പം പറയാം, പതുക്കെ ശ്രമിക്കൂ!"
+    ],
+    "celebrate": [
+      "അത്ഭുതകരം! വളരെ മനോഹരമായി ഉച്ചരിച്ചു!",
+      "ഹൂറേ! നിങ്ങൾ ഒരു പുതിയ നക്ഷത്രം നേടി!",
+      "സൂപ്പർ! നിങ്ങളുടെ ശബ്ദം വളരെ മധുരമാണ്!"
+    ],
+    "dailyQuest": "ഇന്നത്തെ ദൗത്യം: മഴക്കാടിലൂടെ സഞ്ചരിച്ചു ഴ ശബ്ദം പരിശീലിക്കുക!"
+  }
+}

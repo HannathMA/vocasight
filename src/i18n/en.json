@@ -1,0 +1,143 @@
+{
+  "app": {
+    "title": "VocaSight Kids",
+    "tagline": "Your Magical Speech Practice Companion",
+    "disclaimer": "Friendly Practice Companion • Not a Medical or Diagnostic Tool"
+  },
+  "nav": {
+    "home": "Home",
+    "practice": "Practice",
+    "quest": "Quest Map",
+    "garden": "My Garden",
+    "animals": "Animal Friends",
+    "parent": "Parent Zone",
+    "settings": "Settings"
+  },
+  "welcome": {
+    "heroTitle": "Speak, Smile & Shine!",
+    "heroSubtitle": "Explore magical speech worlds with your AI Speech Buddy, Magic Mouth Mirror, and animal friends!",
+    "startBtn": "Start Adventure",
+    "parentZoneBtn": "Parent / Progress",
+    "selectLanguage": "Select Language",
+    "privacyBadge": "100% Private & Browser-Only",
+    "privacyDetails": "Your child's voice and webcam video are processed in memory inside your browser and never uploaded to any server.",
+    "medicalNote": "Notice: VocaSight Kids is designed for fun practice and motivation. It is not a diagnostic tool and does not replace speech-language therapy.",
+    "parentalConsentModal": "Parental Consent & Permissions",
+    "parentalConsentDesc": "To enable the Magic Mouth Mirror and voice check, VocaSight Kids requests camera and microphone access. All video and audio remain strictly on this device and are discarded after each practice attempt.",
+    "consentCheckbox": "I am a parent or guardian and agree to camera & microphone usage for offline speech practice.",
+    "continueBtn": "Accept & Continue"
+  },
+  "soundSelect": {
+    "title": "Choose Your Sound Adventure",
+    "subtitle": "Select a letter or word below to start practicing with the Magic Mouth Mirror!",
+    "gridView": "Cards View",
+    "questView": "Quest Map",
+    "practiceWord": "Practice",
+    "listenSample": "Listen",
+    "minimalPairs": "Sound Twins:",
+    "level": "Level",
+    "wordsCount": "Words"
+  },
+  "practice": {
+    "targetSound": "Target Sound",
+    "magicMirror": "Magic Mouth Mirror",
+    "waveform": "Live Voice Waveform",
+    "listenBtn": "Listen to Sample",
+    "speakBtn": "Tap & Speak",
+    "stopBtn": "Finish Speaking",
+    "recordingState": "Listening... Speak clearly!",
+    "analyzingState": "AI Speech Buddy is checking your wonderful sound...",
+    "calibrating": "Hold still for 2 seconds with a relaxed neutral smile...",
+    "mouthMatch": "Mouth Shape Match:",
+    "lookingForFace": "Looking for your smiling face... Look into the camera!",
+    "camDeniedNote": "Camera is off. Don't worry, speech practice still works with just microphone!",
+    "micDeniedNote": "Microphone permission is needed to hear your lovely voice. Please allow microphone access in your browser settings.",
+    "retryMic": "Retry Microphone",
+    "calibrationSuccess": "Calibrated! Let's practice!",
+    "slowPacingBar": "Slow Speech Rhythm Bar",
+    "easyOnsetCurve": "Smooth Gentle Onset Wave",
+    "whisperModelNotice": "Running Whisper on-device in Web Worker"
+  },
+  "tracks": {
+    "normal": "Standard Practice Track",
+    "articulation": "Articulation Ladder Track",
+    "fluency": "Calm & Easy Fluency Track",
+    "ladder": {
+      "isolated": "Isolated Sound",
+      "syllable": "Syllable",
+      "word": "Full Word",
+      "phrase": "Short Phrase",
+      "sentence": "Full Sentence"
+    },
+    "breathingExercise": "Gentle Dragon Breathing",
+    "inhale": "Breathe In Gently... 🌸",
+    "hold": "Hold Softly... ✨",
+    "exhale": "Breathe Out Slowly like blowing a bubble... 🫧"
+  },
+  "results": {
+    "greatJob": "Superstar Speech!",
+    "starsEarned": "Stars Earned",
+    "accuracy": "Match Confidence",
+    "retryBtn": "Try Again",
+    "nextBtn": "Next Challenge",
+    "articulationTip": "Articulation Practice Note",
+    "patternFoundNotice": "Pattern to discuss with a Speech-Language Pathologist:",
+    "fluencyGentleNote": "Calm breathing and relaxed pacing observed. Wonderful effort!"
+  },
+  "garden": {
+    "title": "My Speech Garden",
+    "subtitle": "Every sound you practice waters your flowers and grows colorful decorations!",
+    "waterDrops": "Water Drops",
+    "flowers": "Blooming Flowers",
+    "streakDays": "Day Streak",
+    "waterPlantBtn": "Water Garden",
+    "gardenLevel": "Garden Level"
+  },
+  "quest": {
+    "title": "Sound Quest Adventure Map",
+    "subtitle": "Journey through magical islands and unlock each secret sound haven!",
+    "locked": "Locked",
+    "unlockAt": "Complete {{count}} sounds to unlock!",
+    "unlocked": "Explore Now",
+    "completed": "Mastered"
+  },
+  "animals": {
+    "title": "Talking Animal Friends",
+    "subtitle": "Meet Ollie the Elephant, Barnaby the Bunny, and Pip the Parrot!",
+    "elephant": "Ollie the Elephant introduces the sound proudly!",
+    "rabbit": "Barnaby Bunny plays the gentle audio sample!",
+    "parrot": "Pip the Parrot listens and cheers with colourful feathers!"
+  },
+  "parent": {
+    "title": "Parent & Progress Dashboard",
+    "subtitle": "Track practice activities, articulation patterns, and export clinical summary reports.",
+    "statsTitle": "Progress Overview",
+    "totalAttempts": "Total Attempts",
+    "successRate": "Success Rate",
+    "activeStreak": "Practice Streak",
+    "patternsTitle": "Clinical Observations & Patterns (Informational Only)",
+    "patternsDisclaimer": "Disclaimer: These observations are generated rule-based pattern indicators for review by certified Speech-Language Pathologists (SLPs). They do not constitute a diagnosis.",
+    "noPatterns": "No recurring substitution or disfluency patterns detected yet. Great job!",
+    "recentAttempts": "Recent Activity Log",
+    "exportPdf": "Export Clinical Report (PDF)",
+    "deleteAll": "Delete All Local Data",
+    "deleteConfirm": "Are you sure you want to permanently erase all local progress and history?",
+    "deletedSuccess": "All local data has been erased."
+  },
+  "settings": {
+    "title": "Settings & Accessibility",
+    "subtitle": "Customize learning pace, contrast, and on-device AI models.",
+    "language": "App Language",
+    "contrast": "High Contrast Mode",
+    "contrastDesc": "High contrast colors for enhanced visual clarity",
+    "pacing": "Speech Guidance Pacing",
+    "pacingNormal": "Standard (1.0x)",
+    "pacingSlow": "Gentle & Slow (0.75x)",
+    "whisperModel": "Whisper Speech Model",
+    "whisperDesc": "Runs 100% in browser via Transformers.js ONNX",
+    "soundEffects": "Sound Effects & Cheerful Bells",
+    "modelTiny": "Whisper Tiny (Faster load, low RAM)",
+    "modelBase": "Whisper Base (Balanced)",
+    "modelSmall": "Whisper Small (Highest accuracy)"
+  }
+}

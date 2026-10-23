@@ -1,0 +1,167 @@
+{
+  "language": "kn",
+  "name": "ಕನ್ನಡ (Kannada)",
+  "whisperLang": "kannada",
+  "scriptCode": "kn",
+  "sounds": [
+    {
+      "id": "kn-retro-la",
+      "symbol": "ಳ",
+      "translit": "ḷa",
+      "tip": "ನಾಲಿಗೆಯನ್ನು ಅಂಗಳಕ್ಕೆ ತಾಗಿಸಿ ಮೃದುವಾಗಿ 'ಳ' ಉಚ್ಚರಿಸಿ (Retroflex la)",
+      "words": [
+        {
+          "text": "ಹಾಲು",
+          "translit": "haalu",
+          "meaning": "Milk",
+          "icon": "🥛",
+          "audio": "/audio/kn/haalu.mp3",
+          "image": "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "ಗಿಳಿ",
+          "translit": "gili",
+          "meaning": "Parrot",
+          "icon": "🦜",
+          "audio": "/audio/kn/gili.mp3",
+          "image": "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "ಬೆಟ್ಟ",
+          "translit": "betta",
+          "meaning": "Hill / Mountain",
+          "icon": "⛰️",
+          "audio": "/audio/kn/betta.mp3",
+          "image": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ಳ", "ಳಿ", "ಳು", "ಳೆ"],
+      "phrase": "ಹಸಿರು ಗಿಳಿ",
+      "sentence": "ಹಸಿರು ಗಿಳಿ ಮರದ ಮೇಲೆ ಹಾಡುತ್ತದೆ",
+      "targetMouth": {
+        "jawOpen": [0.2, 0.55],
+        "mouthStretch": [0.15, 0.5]
+      },
+      "quest": {
+        "area": "whispering-hills",
+        "name": "Whispering Green Hills",
+        "themeColor": "#059669",
+        "icon": "⛰️",
+        "unlockAfter": 0
+      },
+      "minimalPairs": ["ಲ", "ರ"]
+    },
+    {
+      "id": "kn-retro-ta",
+      "symbol": "ಟ",
+      "translit": "ṭa",
+      "tip": "ನಾಲಿಗೆ ತುದಿಯಿಂದ ಗಟ್ಟಿಯಾಗಿ ಟ ಉಚ್ಚರಿಸಿ",
+      "words": [
+        {
+          "text": "ಟೊಮೆಟೊ",
+          "translit": "tometo",
+          "meaning": "Tomato",
+          "icon": "🍅",
+          "audio": "/audio/kn/tometo.mp3",
+          "image": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "ಟೋಪಿ",
+          "translit": "topi",
+          "meaning": "Cap",
+          "icon": "🧢",
+          "audio": "/audio/kn/topi.mp3",
+          "image": "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "ಬುಟ್ಟಿ",
+          "translit": "butti",
+          "meaning": "Basket",
+          "icon": "🧺",
+          "audio": "/audio/kn/butti.mp3",
+          "image": "https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ಟಾ", "ಟೀ", "ಟೂ", "ಟೇ"],
+      "phrase": "ಕೆಂಪು ಟೊಮೆಟೊ",
+      "sentence": "ಬುಟ್ಟಿಯಲ್ಲಿ ತಾಜಾ ಕೆಂಪು ಟೊಮೆಟೊ ಇದೆ",
+      "targetMouth": {
+        "jawOpen": [0.18, 0.52],
+        "mouthSmile": [0.15, 0.5]
+      },
+      "quest": {
+        "area": "sunny-orchard-kn",
+        "name": "Sunny Fruit Garden",
+        "themeColor": "#D97706",
+        "icon": "🍅",
+        "unlockAfter": 2
+      },
+      "minimalPairs": ["ತ", "ಚ"]
+    },
+    {
+      "id": "kn-retro-da",
+      "symbol": "ಡ",
+      "translit": "ḍa",
+      "tip": "ನಾಲಿಗೆಯನ್ನು ಮೇಲ್ಭಾಗಕ್ಕೆ ಮಡಚಿ ಡ ಶಬ್ದ ಹೇಳಿ",
+      "words": [
+        {
+          "text": "ಡಬ್ಬಿ",
+          "translit": "dabbi",
+          "meaning": "Box",
+          "icon": "📦",
+          "audio": "/audio/kn/dabbi.mp3",
+          "image": "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "ಮೊಟ್ಟೆ",
+          "translit": "motte",
+          "meaning": "Egg",
+          "icon": "🥚",
+          "audio": "/audio/kn/motte.mp3",
+          "image": "https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "ದಂಡೆ",
+          "translit": "dande",
+          "meaning": "River Shore",
+          "icon": "🏖️",
+          "audio": "/audio/kn/dande.mp3",
+          "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ಡಾ", "ಡೀ", "ಡೂ", "ಡೇ"],
+      "phrase": "ಚಿಕ್ಕ ಡಬ್ಬಿ",
+      "sentence": "ನದಿ ದಂಡೆಯ ಬಳಿ ಸುಂದರ ಹೂವುಗಳಿವೆ",
+      "targetMouth": {
+        "jawOpen": [0.2, 0.55],
+        "mouthSmile": [0.1, 0.45]
+      },
+      "quest": {
+        "area": "serene-lake",
+        "name": "Serene Lake Shore",
+        "themeColor": "#0891B2",
+        "icon": "⛵",
+        "unlockAfter": 4
+      },
+      "minimalPairs": ["ದ", "ರ"]
+    }
+  ],
+  "buddyPhrases": {
+    "encourage": [
+      "ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ ಗೆಳೆಯ! ಒಟ್ಟಾಗಿ ಹೇಳೋಣ!",
+      "ಉತ್ತಮ ಪ್ರಯತ್ನ! ನಗುಮುಖದಿಂದ ಮತ್ತೊಮ್ಮೆ ಹೇಳಿ!",
+      "ನೀವು ತುಂಬ ಚುರುಕಾಗಿದ್ದೀರಿ!"
+    ],
+    "retry": [
+      "ಪರವಾಗಿಲ್ಲ ಗೆಳೆಯ, ನಿಧಾನವಾಗಿ ಹೇಳೋಣ!",
+      "ಕನ್ನಡಿ ನೋಡಿ ಬಾಯಿ ಸ್ವಲ್ಪ ತೆರೆದು ಹೇಳಿ!",
+      "ಯಾವುದೇ ಆತುರವಿಲ್ಲ, ನಿಧಾನವಾಗಿ ಪ್ರಯತ್ನಿಸಿ!"
+    ],
+    "celebrate": [
+      "ಭೇಷ್! ಅದ್ಭುತವಾದ ಉಚ್ಚಾರಣೆ!",
+      "ಹುರ್ರೆ! ನಿಮಗೆ ಹೊಳೆಯುವ ನಕ್ಷತ್ರ ಸಿಕ್ಕಿದೆ!",
+      "ನಿಮ್ಮ ಧ್ವನಿ ತುಂಬಾ ಮುದ್ದಾಗಿದೆ!"
+    ],
+    "dailyQuest": "ಇಂದಿನ ಸಾಹಸ: ಳ ಮತ್ತು ಡ ಶಬ್ದಗಳನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ಉಚ್ಚರಿಸಿ!"
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "language": "ta",
+  "name": "தமிழ் (Tamil)",
+  "whisperLang": "tamil",
+  "scriptCode": "ta",
+  "sounds": [
+    {
+      "id": "ta-zha",
+      "symbol": "ழ",
+      "translit": "ḻa / zha",
+      "tip": "நாக்கின் நுனியை மேல் நோக்கி வளைத்து 'ழ' ஒலி எழுப்புக (Special retroflex approximant)",
+      "words": [
+        {
+          "text": "மழை",
+          "translit": "mazhai",
+          "meaning": "Rain",
+          "icon": "🌧️",
+          "audio": "/audio/ta/mazhai.mp3",
+          "image": "https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "பழம்",
+          "translit": "pazham",
+          "meaning": "Fruit",
+          "icon": "🍎",
+          "audio": "/audio/ta/pazham.mp3",
+          "image": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "தமிழ்",
+          "translit": "thamizh",
+          "meaning": "Tamil Language",
+          "icon": "📜",
+          "audio": "/audio/ta/thamizh.mp3",
+          "image": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ழ", "ழி", "ழு", "ழெ"],
+      "phrase": "மழை பெய்கிறது",
+      "sentence": "இனிய தமிழ் மொழியில் மழை அழகு",
+      "targetMouth": {
+        "jawOpen": [0.15, 0.45],
+        "mouthFunnel": [0.15, 0.65],
+        "mouthPucker": [0.05, 0.4]
+      },
+      "quest": {
+        "area": "rain-forest-ta",
+        "name": "Emerald Rain Forest",
+        "themeColor": "#059669",
+        "icon": "🌧️",
+        "unlockAfter": 0
+      },
+      "minimalPairs": ["ள", "ல"]
+    },
+    {
+      "id": "ta-retro-la",
+      "symbol": "ள",
+      "translit": "ḷa",
+      "tip": "நாக்கின் அடியை உள்நாக்கில் தொட்டு உச்சரிக்கவும்",
+      "words": [
+        {
+          "text": "கிளி",
+          "translit": "kili",
+          "meaning": "Parrot",
+          "icon": "🦜",
+          "audio": "/audio/ta/kili.mp3",
+          "image": "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "வளை",
+          "translit": "valai",
+          "meaning": "Bangle / Arc",
+          "icon": "⭕",
+          "audio": "/audio/ta/valai.mp3",
+          "image": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "குளம்",
+          "translit": "kulam",
+          "meaning": "Pond / Lake",
+          "icon": "💧",
+          "audio": "/audio/ta/kulam.mp3",
+          "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ள", "ளி", "ளு", "ளே"],
+      "phrase": "கிளி பேசுகிறது",
+      "sentence": "பச்சைக்கிளி மரத்தில் இனிமையாகப் பேசுகிறது",
+      "targetMouth": {
+        "jawOpen": [0.2, 0.55],
+        "mouthStretch": [0.15, 0.55]
+      },
+      "quest": {
+        "area": "lotus-pond",
+        "name": "Lotus Lake Pond",
+        "themeColor": "#DB2777",
+        "icon": "🪷",
+        "unlockAfter": 2
+      },
+      "minimalPairs": ["ல", "ழ"]
+    },
+    {
+      "id": "ta-hard-ra",
+      "symbol": "ற",
+      "translit": "ṟa",
+      "tip": "நாக்கை மேல் அன்னத்தில் மெதுவாகத் தட்டி உச்சரிக்கவும்",
+      "words": [
+        {
+          "text": "பறவை",
+          "translit": "paravai",
+          "meaning": "Flying Bird",
+          "icon": "🕊️",
+          "audio": "/audio/ta/paravai.mp3",
+          "image": "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "முறம்",
+          "translit": "muram",
+          "meaning": "Winnow",
+          "icon": "🧺",
+          "audio": "/audio/ta/muram.mp3",
+          "image": "https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "காற்று",
+          "translit": "kaatru",
+          "meaning": "Wind / Breeze",
+          "icon": "🍃",
+          "audio": "/audio/ta/kaatru.mp3",
+          "image": "https://images.unsplash.com/photo-1505672678857-8f9370d5d552?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ற", "றி", "று", "றெ"],
+      "phrase": "பறவை பறக்கிறது",
+      "sentence": "இனிய தென்றல் காற்று மெல்ல வீசுகிறது",
+      "targetMouth": {
+        "jawOpen": [0.15, 0.5],
+        "mouthSmile": [0.15, 0.55]
+      },
+      "quest": {
+        "area": "breeze-valley",
+        "name": "Whispering Breeze Valley",
+        "themeColor": "#2563EB",
+        "icon": "🍃",
+        "unlockAfter": 4
+      },
+      "minimalPairs": ["ர", "ட"]
+    }
+  ],
+  "buddyPhrases": {
+    "encourage": [
+      "அற்புதம் செல்லமே! நாம் இருவரும் சேர்ந்து பேசுவோம்!",
+      "அழகாக முயற்சி செய்தீர்கள்! மீண்டும் ஒருமுறை சொல்லுங்கள்!",
+      "நீங்கள் மிகச் சிறந்த குழந்தை, புன்னகையுடன் பேசுங்கள்!"
+    ],
+    "retry": [
+      "பரவாயில்லை நண்பா, மெதுவாக அழகாகப் பேசுவோம்!",
+      "கண்ணாடியில் பார்த்து வாயை இன்னும் கொஞ்சம் திறந்து பேசுங்கள்!",
+      "அமைதியாகச் சொல்லுங்கள், எந்த அவசரமும் இல்லை!"
+    ],
+    "celebrate": [
+      "ஆஹா! மிகச் சிறந்த உச்சரிப்பு!",
+      "வெற்றி! நீங்கள் ஒரு புதிய தங்க நட்சத்திரம் பெற்றீர்கள்!",
+      "சூப்பர்! உங்கள் குரல் மிக அழகாக இருக்கிறது!"
+    ],
+    "dailyQuest": "இன்றைய சாகசம்: ழ மற்றும் ள ஒலிகளைப் பேசி மகிழுங்கள்!"
+  }
+}

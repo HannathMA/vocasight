@@ -1,0 +1,216 @@
+{
+  "language": "en",
+  "name": "English",
+  "whisperLang": "english",
+  "scriptCode": "en",
+  "sounds": [
+    {
+      "id": "th-sound",
+      "symbol": "th",
+      "translit": "th",
+      "tip": "Gently place the tip of your tongue between your front teeth and blow soft air",
+      "words": [
+        {
+          "text": "thumb",
+          "translit": "thumb",
+          "meaning": "Thumb Finger",
+          "icon": "👍",
+          "audio": "/audio/en/thumb.mp3",
+          "image": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "three",
+          "translit": "three",
+          "meaning": "Number 3",
+          "icon": "3️⃣",
+          "audio": "/audio/en/three.mp3",
+          "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "think",
+          "translit": "think",
+          "meaning": "Thinking Idea",
+          "icon": "💡",
+          "audio": "/audio/en/think.mp3",
+          "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["tha", "thee", "thoo", "thay"],
+      "phrase": "thumbs up high",
+      "sentence": "I see three birds flying through the sky",
+      "targetMouth": {
+        "jawOpen": [0.15, 0.45],
+        "mouthSmile": [0.1, 0.45]
+      },
+      "quest": {
+        "area": "whispering-woods",
+        "name": "Whispering Woods Haven",
+        "themeColor": "#059669",
+        "icon": "🌲",
+        "unlockAfter": 0
+      },
+      "minimalPairs": ["f", "s"]
+    },
+    {
+      "id": "r-sound",
+      "symbol": "r",
+      "translit": "r",
+      "tip": "Pull your tongue slightly back like a little spoon, keep sides against top teeth",
+      "words": [
+        {
+          "text": "rabbit",
+          "translit": "rabbit",
+          "meaning": "Cute Bunny",
+          "icon": "🐰",
+          "audio": "/audio/en/rabbit.mp3",
+          "image": "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "rainbow",
+          "translit": "rainbow",
+          "meaning": "Colorful Arc",
+          "icon": "🌈",
+          "audio": "/audio/en/rainbow.mp3",
+          "image": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "rocket",
+          "translit": "rocket",
+          "meaning": "Space Rocket",
+          "icon": "🚀",
+          "audio": "/audio/en/rocket.mp3",
+          "image": "https://images.unsplash.com/photo-1517976487588-466a3d90bd66?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["ra", "ree", "roo", "ray"],
+      "phrase": "red rainbow glows",
+      "sentence": "The friendly rabbit runs around the red rocket",
+      "targetMouth": {
+        "jawOpen": [0.18, 0.48],
+        "mouthFunnel": [0.15, 0.55],
+        "mouthPucker": [0.1, 0.45]
+      },
+      "quest": {
+        "area": "rainbow-valley",
+        "name": "Rainbow Ridge Valley",
+        "themeColor": "#EC4899",
+        "icon": "🌈",
+        "unlockAfter": 2
+      },
+      "minimalPairs": ["w", "l"]
+    },
+    {
+      "id": "l-sound",
+      "symbol": "l",
+      "translit": "l",
+      "tip": "Touch the tip of your tongue behind your top front teeth and let voice flow out the sides",
+      "words": [
+        {
+          "text": "lion",
+          "translit": "lion",
+          "meaning": "King Lion",
+          "icon": "🦁",
+          "audio": "/audio/en/lion.mp3",
+          "image": "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "lemon",
+          "translit": "lemon",
+          "meaning": "Yellow Lemon",
+          "icon": "🍋",
+          "audio": "/audio/en/lemon.mp3",
+          "image": "https://images.unsplash.com/photo-1533038590840-1cde6e668a91?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "leaf",
+          "translit": "leaf",
+          "meaning": "Green Leaf",
+          "icon": "🍃",
+          "audio": "/audio/en/leaf.mp3",
+          "image": "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["la", "lee", "loo", "lay"],
+      "phrase": "little green leaf",
+      "sentence": "The sunny lion looks at the lovely lemon tree",
+      "targetMouth": {
+        "jawOpen": [0.2, 0.55],
+        "mouthSmile": [0.15, 0.5]
+      },
+      "quest": {
+        "area": "lemon-grove",
+        "name": "Golden Lemon Grove",
+        "themeColor": "#EAB308",
+        "icon": "🍋",
+        "unlockAfter": 4
+      },
+      "minimalPairs": ["r", "w"]
+    },
+    {
+      "id": "s-sound",
+      "symbol": "s",
+      "translit": "s",
+      "tip": "Smile gently, bring teeth close, and hiss soft air like a friendly snake",
+      "words": [
+        {
+          "text": "sun",
+          "translit": "sun",
+          "meaning": "Bright Sun",
+          "icon": "☀️",
+          "audio": "/audio/en/sun.mp3",
+          "image": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "star",
+          "translit": "star",
+          "meaning": "Twinkling Star",
+          "icon": "⭐",
+          "audio": "/audio/en/star.mp3",
+          "image": "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=400&auto=format&fit=crop&q=60"
+        },
+        {
+          "text": "smile",
+          "translit": "smile",
+          "meaning": "Big Happy Smile",
+          "icon": "😊",
+          "audio": "/audio/en/smile.mp3",
+          "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=60"
+        }
+      ],
+      "syllables": ["sa", "see", "soo", "say"],
+      "phrase": "sunny bright star",
+      "sentence": "The smiling star shines softly in the starry sky",
+      "targetMouth": {
+        "jawOpen": [0.1, 0.35],
+        "mouthSmile": [0.25, 0.65],
+        "mouthClose": [0.1, 0.4]
+      },
+      "quest": {
+        "area": "starry-summit",
+        "name": "Starlight Summit Island",
+        "themeColor": "#6366F1",
+        "icon": "⭐",
+        "unlockAfter": 6
+      },
+      "minimalPairs": ["sh", "th"]
+    }
+  ],
+  "buddyPhrases": {
+    "encourage": [
+      "Awesome explorer! Let's say it together!",
+      "Super try! Give a big bright smile and repeat!",
+      "You are doing so great! One more fun try!"
+    ],
+    "retry": [
+      "No worries buddy, take a gentle breath and say it slowly!",
+      "Look in the Magic Mirror and open your mouth just a little wider!",
+      "We'll do it together, no rush at all!"
+    ],
+    "celebrate": [
+      "Woohoo! Fantastic pronunciation!",
+      "Superstar! You earned shiny gold stars!",
+      "Spectacular sound! Your voice is crystal clear!"
+    ],
+    "dailyQuest": "Today's Quest: Discover the Whispering Woods with 'th' and 'r' sounds!"
+  }
+}

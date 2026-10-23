@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD166" />
+      <stop offset="100%" stop-color="#FF9F1C" />
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="46" fill="#4ECDC4" />
+  <circle cx="50" cy="50" r="40" fill="#2AB7CA" />
+  <!-- Cute Smiling Mascot Face -->
+  <circle cx="36" cy="42" r="6" fill="#1A202C" />
+  <circle cx="64" cy="42" r="6" fill="#1A202C" />
+  <circle cx="38" cy="40" r="2" fill="#FFFFFF" />
+  <circle cx="66" cy="40" r="2" fill="#FFFFFF" />
+  <!-- Rosy cheeks -->
+  <ellipse cx="28" cy="49" rx="4" ry="2.5" fill="#FF8484" opacity="0.8" />
+  <ellipse cx="72" cy="49" rx="4" ry="2.5" fill="#FF8484" opacity="0.8" />
+  <!-- Friendly smiling mouth -->
+  <path d="M 38 52 Q 50 66 62 52" fill="#E71D36" stroke="#1A202C" stroke-width="2.5" stroke-linecap="round" />
+  <path d="M 42 54 Q 50 62 58 54" fill="#FFFFFF" />
+  <!-- Little Sparkle / Star on head -->
+  <path d="M 50 8 L 53 18 L 63 20 L 55 26 L 57 36 L 50 30 L 43 36 L 45 26 L 37 20 L 47 18 Z" fill="url(#starGrad)" />
+</svg>

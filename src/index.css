@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-child: 'Fredoka', 'Outfit', system-ui, sans-serif;
+    --font-indic-ml: 'Noto Sans Malayalam', sans-serif;
+    --font-indic-hi: 'Noto Sans Devanagari', sans-serif;
+    --font-indic-ta: 'Noto Sans Tamil', sans-serif;
+    --font-indic-te: 'Noto Sans Telugu', sans-serif;
+    --font-indic-kn: 'Noto Sans Kannada', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-child);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* High Contrast Mode */
+.high-contrast {
+  --bg-main: #000000;
+  --text-main: #ffffff;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast .card-glass {
+  background: #111111 !important;
+  border: 3px solid #ffff00 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast button {
+  border: 2px solid #ffffff !important;
+}
+
+/* Child friendly bouncy animations & glows */
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float-bubble {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-gentle-bounce {
+  animation: bounce-gentle 2.5s ease-in-out infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float-bubble 4s ease-in-out infinite;
+}
+
+/* Script font helpers */
+.lang-ml {
+  font-family: var(--font-indic-ml), var(--font-child);
+}
+.lang-hi {
+  font-family: var(--font-indic-hi), var(--font-child);
+}
+.lang-ta {
+  font-family: var(--font-indic-ta), var(--font-child);
+}
+.lang-te {
+  font-family: var(--font-indic-te), var(--font-child);
+}
+.lang-kn {
+  font-family: var(--font-indic-kn), var(--font-child);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #fdf6b2;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb {
+  background: #fbbf24;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f59e0b;
+}
