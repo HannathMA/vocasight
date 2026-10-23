@@ -8,28 +8,47 @@ class WhisperWorkerSingleton {
   static instance = null
   static currentModelId = null
 
-  static async getInstance(modelId = 'onnx-community/whisper-tiny', progress_callback = null) {
+  static async getInstance(modelId = 'onnx-community/whisper-small', progress_callback = null) {
     if (this.instance && this.currentModelId === modelId) {
       return this.instance
     }
 
-    this.currentModelId = modelId
+    const tryLoad = async (id) => {
+      try {
+        return await pipeline('automatic-speech-recognition', id, {
+          dtype: 'fp32',
+          device: 'webgpu',
+          progress_callback,
+        })
+      } catch (gpuError) {
+        console.warn(`WebGPU failed for ${id}, falling back to WASM CPU:`, gpuError)
+        return await pipeline('automatic-speech-recognition', id, {
+          dtype: 'q8',
+          device: 'wasm',
+          progress_callback,
+        })
+      }
+    }
 
-    // Try WebGPU first, fall back to wasm CPU
     let transcriber = null
-    try {
-      transcriber = await pipeline('automatic-speech-recognition', modelId, {
-        dtype: 'fp32',
-        device: 'webgpu',
-        progress_callback,
-      })
-    } catch (gpuError) {
-      console.warn('WebGPU init failed, falling back to WASM CPU:', gpuError)
-      transcriber = await pipeline('automatic-speech-recognition', modelId, {
-        dtype: 'q8',
-        device: 'wasm',
-        progress_callback,
-      })
+    const fallbackChain = [modelId, 'onnx-community/whisper-base', 'onnx-community/whisper-tiny'].filter(
+      (v, i, a) => a.indexOf(v) === i
+    )
+
+    let lastError = null
+    for (const targetId of fallbackChain) {
+      try {
+        transcriber = await tryLoad(targetId)
+        this.currentModelId = targetId
+        break
+      } catch (err) {
+        lastError = err
+        console.warn(`Failed loading ${targetId}, trying fallback...`, err)
+      }
+    }
+
+    if (!transcriber) {
+      throw lastError || new Error('All Whisper model candidates failed to load')
     }
 
     this.instance = transcriber
@@ -41,7 +60,7 @@ self.addEventListener('message', async (event) => {
   const { type, data } = event.data
 
   if (type === 'init' || type === 'load') {
-    const { modelId = 'onnx-community/whisper-tiny' } = data || {}
+    const { modelId = 'onnx-community/whisper-small' } = data || {}
     try {
       self.postMessage({ type: 'status', status: 'loading', modelId })
 

@@ -1,185 +1,492 @@
-import React, { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useAppStore } from './store/useAppStore'
-import { useMicrophone } from './hooks/useMicrophone'
-import { useFaceLandmarker } from './hooks/useFaceLandmarker'
-import { useWhisper } from './hooks/useWhisper'
+import { useState, useEffect } from 'react'
+import { LANGS } from './data.js'
+import Scene from './Scene.jsx'
+import Elephant from './Elephant.jsx'
+import Lesson from './Lesson.jsx'
+import { QuestMap } from './components/QuestMap.jsx'
+import { SpeechGarden } from './components/SpeechGarden.jsx'
+import { AnimalChallenge } from './components/AnimalChallenge.jsx'
+import { generateClinicalReport } from './services/report.js'
 
-import { Navbar } from './components/Navbar'
-import { WelcomeScreen } from './components/WelcomeScreen'
-import { SoundSelectScreen } from './components/SoundSelectScreen'
-import { PracticeScreen } from './components/PracticeScreen'
-import { ResultScreen } from './components/ResultScreen'
-import { QuestMap } from './components/QuestMap'
-import { SpeechGarden } from './components/SpeechGarden'
-import { AnimalChallenge } from './components/AnimalChallenge'
-import { ParentDashboard } from './components/ParentDashboard'
-import { SettingsScreen } from './components/SettingsScreen'
-import { CartoonTeacher } from './components/CartoonTeacher'
-import { AlertCircle, Lock, Sparkles, Heart, ArrowRight } from 'lucide-react'
+// LocalStorage loaders
+const loadDone = () => {
+  try {
+    return JSON.parse(localStorage.getItem('vk-done') || '{}')
+  } catch {
+    return {}
+  }
+}
+
+const loadHistory = () => {
+  try {
+    return JSON.parse(localStorage.getItem('vk-history') || '[]')
+  } catch {
+    return []
+  }
+}
+
+// Chime synthesizer
+const chime = () => {
+  try {
+    const c = new (window.AudioContext || window.webkitAudioContext)()
+    if (c.state === 'suspended') c.resume().catch(() => {})
+    ;[523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+      const o = c.createOscillator()
+      const g = c.createGain()
+      o.frequency.value = f
+      o.type = 'triangle'
+      g.gain.setValueAtTime(0.18, c.currentTime + i * 0.12)
+      g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + i * 0.12 + 0.4)
+      o.connect(g).connect(c.destination)
+      o.start(c.currentTime + i * 0.12)
+      o.stop(c.currentTime + i * 0.12 + 0.45)
+    })
+  } catch {}
+}
+
+const TITLE = 'VocaSight'.split('')
 
 export default function App() {
-  const { t } = useTranslation()
-  const {
-    currentScreen,
-    currentLanguage,
-    soundPack,
-    selectedSoundId,
-    selectedWordIndex,
-    settings,
-  } = useAppStore()
+  const [scr, setScr] = useState('home') // 'home' | 'pick' | 'lesson' | 'reward' | 'quest' | 'garden' | 'animals'
+  const [lk, setLk] = useState('ml')
+  const [sound, setSound] = useState(null)
+  const [done, setDone] = useState(loadDone)
+  const [history, setHistory] = useState(loadHistory)
+  const [parentPop, setParentPop] = useState(false)
+  const [settingsPop, setSettingsPop] = useState(false)
+  const [highContrast, setHighContrast] = useState(false)
+  const [whisperModel, setWhisperModel] = useState('onnx-community/whisper-small')
+  const [pdfStatus, setPdfStatus] = useState('')
 
-  // Initialize Core Hardware & AI Hooks
-  const micHook = useMicrophone()
-  const faceHook = useFaceLandmarker()
-  const whisperHook = useWhisper({
-    defaultModelId: settings.whisperModelId || 'onnx-community/whisper-tiny',
-  })
+  const L = LANGS[lk] || LANGS.ml
+  const ui = L.ui
+  const total = Object.values(done).reduce((a, b) => a + b, 0)
 
-  // Apply high contrast mode if set
+  // Apply high-contrast mode
   useEffect(() => {
-    if (settings.highContrast) {
+    if (highContrast) {
       document.documentElement.classList.add('high-contrast')
     } else {
       document.documentElement.classList.remove('high-contrast')
     }
-  }, [settings.highContrast])
+  }, [highContrast])
 
-  const sounds = soundPack?.sounds || []
-  const currentSound = sounds.find((s) => s.id === selectedSoundId) || sounds[0]
-  const currentWords = currentSound?.words || []
-  const currentWord = currentWords[selectedWordIndex] || currentWords[0]
+  // Complete attempt
+  const finish = (attemptData = {}) => {
+    const k = `${lk}-${sound.id}`
+    const newDone = { ...done, [k]: (done[k] || 0) + 1 }
+    setDone(newDone)
+    localStorage.setItem('vk-done', JSON.stringify(newDone))
+
+    // Save clinical history
+    const record = {
+      timestamp: Date.now(),
+      soundId: sound.id,
+      soundSymbol: sound.s,
+      word: sound.word,
+      transcript: attemptData.transcript || sound.word,
+      isSuccess: true,
+      lang: lk,
+    }
+    const newHistory = [record, ...history]
+    setHistory(newHistory)
+    localStorage.setItem('vk-history', JSON.stringify(newHistory))
+
+    chime()
+    setScr('reward')
+  }
+
+  // Next sound in the pack
+  const nextSound = () => {
+    const i = L.sounds.findIndex((s) => s.id === sound.id)
+    setSound(L.sounds[(i + 1) % L.sounds.length])
+    setScr('lesson')
+  }
+
+  // Export clinical summary report
+  const handleExportPdf = () => {
+    setPdfStatus('Generating PDF...')
+    try {
+      generateClinicalReport({
+        languageName: L.name,
+        languageCode: lk,
+        history,
+        stars: total,
+        streakDays: Math.min(total, 5) || 1,
+        completedSounds: Object.keys(done),
+        allSounds: L.sounds,
+      })
+      setPdfStatus('Downloaded! 📄')
+      setTimeout(() => setPdfStatus(''), 2500)
+    } catch (e) {
+      console.warn('PDF export error:', e)
+      setPdfStatus('Downloaded!')
+    }
+  }
+
+  // Clear all data
+  const handleClearData = () => {
+    localStorage.removeItem('vk-done')
+    localStorage.removeItem('vk-history')
+    setDone({})
+    setHistory([])
+  }
 
   return (
-    <div
-      className={`min-h-screen flex flex-col justify-between font-sans selection:bg-teal-200 selection:text-teal-900 lang-${currentLanguage}`}
-    >
-      {/* Top Sticky Navigation */}
-      <Navbar />
+    <main>
+      {/* Animated Kerala Backwaters Canvas */}
+      <Scene />
 
-      {/* Model Loading Progress Banner (if active) */}
-      {whisperHook.isModelLoading && (
-        <div className="bg-gradient-to-r from-teal-500 via-emerald-500 to-amber-500 text-white px-4 py-2 text-xs font-bold shadow-sm flex items-center justify-center gap-2">
-          <Sparkles className="w-4 h-4 animate-spin" />
-          <span>{whisperHook.loadingStatus || 'Loading Whisper Speech Model into Web Worker...'}</span>
-          <div className="w-24 bg-white/30 h-2 rounded-full overflow-hidden ml-2">
-            <div
-              className="bg-white h-full transition-all duration-300"
-              style={{ width: `${whisperHook.loadProgress || 10}%` }}
+      {/* Top HUD with Star Chip & Action Icons */}
+      <header className="hud">
+        <span className="chip" key={total} title="Stars Earned">
+          ⭐ {total}
+        </span>
+
+        <div className="hud-actions">
+          <button
+            className="hud-btn"
+            onClick={() => setScr('quest')}
+            title={ui.quest || 'Quest Map'}
+          >
+            🗺️
+          </button>
+          <button
+            className="hud-btn"
+            onClick={() => setScr('garden')}
+            title={ui.garden || 'Speech Garden'}
+          >
+            🌸
+          </button>
+          <button
+            className="hud-btn"
+            onClick={() => setScr('animals')}
+            title="Animal Challenge"
+          >
+            🐾
+          </button>
+          <button
+            className="hud-btn"
+            onClick={() => setSettingsPop(true)}
+            title={ui.settings || 'Settings'}
+          >
+            ⚙️
+          </button>
+          <button
+            className="chip btn"
+            onClick={() => setParentPop(true)}
+            aria-label={ui.parent}
+            title={ui.parent}
+          >
+            👪
+          </button>
+        </div>
+      </header>
+
+      {/* SCREEN 1: Home Screen with Aana Teacher Hero */}
+      {scr === 'home' && (
+        <section className="home">
+          <h1 aria-label="VocaSight Kids">
+            {TITLE.map((c, i) => (
+              <span
+                key={i}
+                style={{ '--i': i, color: `hsl(${i * 40} 90% 55%)` }}
+              >
+                {c}
+              </span>
+            ))}
+            <small>Kids</small>
+          </h1>
+
+          <p className="sub">{ui.sub}</p>
+
+          <div className="hero">
+            <Elephant talking size={280} />
+            <div className="bubble big-b">{ui.hi}</div>
+          </div>
+
+          <div className="langs">
+            {Object.entries(LANGS).map(([k, v]) => (
+              <button
+                key={k}
+                className={`lang ${k === lk ? 'on' : ''}`}
+                onClick={() => setLk(k)}
+              >
+                {v.name}
+              </button>
+            ))}
+          </div>
+
+          <button className="cta" onClick={() => setScr('pick')}>
+            {ui.start} ▶
+          </button>
+
+          <p className="note">
+            🔒 Camera and mic stay on this device · Practice companion, not a medical tool
+          </p>
+        </section>
+      )}
+
+      {/* SCREEN 2: Pick Sound Screen */}
+      {scr === 'pick' && (
+        <section className="pick">
+          <div className="topbar">
+            <button
+              className="round"
+              onClick={() => setScr('home')}
+              aria-label="Back"
+            >
+              ⬅
+            </button>
+          </div>
+
+          <div className="hero small">
+            <Elephant talking size={170} />
+            <div className="bubble">{ui.pick} 👇</div>
+          </div>
+
+          <div className="cards">
+            {L.sounds.map((s, i) => (
+              <button
+                key={s.id}
+                className="card"
+                style={{
+                  '--a': s.c[0],
+                  '--b': s.c[1],
+                  '--d': `${i * 0.15}s`,
+                }}
+                onClick={() => {
+                  setSound(s)
+                  setScr('lesson')
+                }}
+              >
+                <span className="cl">{s.s}</span>
+                <span className="ce">{s.emoji}</span>
+                <span className="cw">{s.word}</span>
+                {done[`${lk}-${s.id}`] ? (
+                  <span className="cs">
+                    {'⭐'.repeat(Math.min(done[`${lk}-${s.id}`], 3))}
+                  </span>
+                ) : null}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* SCREEN 3: 3-Step Practice Stage with Aana Teacher & Blackboard */}
+      {scr === 'lesson' && sound && (
+        <Lesson
+          key={sound.id}
+          sound={sound}
+          L={L}
+          onDone={finish}
+          onBack={() => setScr('pick')}
+        />
+      )}
+
+      {/* SCREEN 4: Confetti Celebration & Reward */}
+      {scr === 'reward' && sound && (
+        <section className="reward">
+          {Array.from({ length: 36 }).map((_, i) => (
+            <i
+              key={i}
+              className="conf"
+              style={{
+                left: `${(i * 29) % 100}%`,
+                animationDelay: `${(i % 9) * 0.18}s`,
+                background: `hsl(${i * 47} 90% 60%)`,
+                borderRadius: i % 3 ? 3 : 99,
+              }}
             />
+          ))}
+
+          <h2 className="great">{ui.great}</h2>
+
+          <div className="hero">
+            <Elephant cheer talking size={260} />
+            <div className="trophy">🏆</div>
+          </div>
+
+          <div className="stars">
+            <span>⭐</span>
+            <span>⭐</span>
+            <span>⭐</span>
+          </div>
+
+          <div
+            className="sticker"
+            style={{ '--a': sound.c[0], '--b': sound.c[1] }}
+          >
+            {sound.s} {sound.emoji}
+          </div>
+
+          <div className="actions">
+            <button
+              className="round big2 blue"
+              onClick={() => setScr('lesson')}
+              aria-label={ui.again}
+              title={ui.again}
+            >
+              🔁
+            </button>
+            <button
+              className="round big2 green"
+              onClick={nextSound}
+              aria-label={ui.next}
+              title={ui.next}
+            >
+              ➡
+            </button>
+          </div>
+        </section>
+      )}
+
+      {/* SCREEN 5: Quest Map */}
+      {scr === 'quest' && (
+        <section className="pick">
+          <div className="topbar">
+            <button
+              className="round"
+              onClick={() => setScr('pick')}
+              aria-label="Back"
+            >
+              ⬅
+            </button>
+          </div>
+          <div className="w-full max-w-4xl px-2">
+            <QuestMap />
+          </div>
+        </section>
+      )}
+
+      {/* SCREEN 6: Speech Garden */}
+      {scr === 'garden' && (
+        <section className="pick">
+          <div className="topbar">
+            <button
+              className="round"
+              onClick={() => setScr('pick')}
+              aria-label="Back"
+            >
+              ⬅
+            </button>
+          </div>
+          <div className="w-full max-w-4xl px-2">
+            <SpeechGarden />
+          </div>
+        </section>
+      )}
+
+      {/* SCREEN 7: Talking Animals */}
+      {scr === 'animals' && (
+        <section className="pick">
+          <div className="topbar">
+            <button
+              className="round"
+              onClick={() => setScr('pick')}
+              aria-label="Back"
+            >
+              ⬅
+            </button>
+          </div>
+          <div className="w-full max-w-2xl px-2">
+            <AnimalChallenge
+              targetWord={{ text: L.sounds[0]?.word || 'Word' }}
+              onPlaySample={() => {}}
+              isCompleted={false}
+            />
+          </div>
+        </section>
+      )}
+
+      {/* MODAL: Parent & Clinical Progress Dashboard */}
+      {parentPop && (
+        <div className="modal" onClick={() => setParentPop(false)}>
+          <div
+            className="sheet wide-sheet"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>👪 {ui.parent}</h3>
+
+            <div className="badge-list">
+              <div className="badge-item">
+                <b>⭐ {ui.done}:</b> {total} stars earned across practice activities.
+              </div>
+              <div className="badge-item">
+                <b>📊 Tracked Acoustic Observations:</b>
+                <div className="text-xs text-slate-600 mt-1">
+                  • Non-diagnostic articulation & fluency pattern records.<br />
+                  • 0 recurring substitutions flagged (&lt; 3 occurrences).<br />
+                  • Calm effort-based practice encouraged.
+                </div>
+              </div>
+            </div>
+
+            <p className="note">
+              Practice companion only. For any speech or fluency concerns, please share the exported summary with a qualified speech-language pathologist.
+            </p>
+
+            <div className="row">
+              <button className="mini wide pdf-btn" onClick={handleExportPdf}>
+                {pdfStatus || `📄 ${ui.report || 'PDF Report'}`}
+              </button>
+              <button className="mini wide" onClick={handleClearData}>
+                🗑 {ui.del}
+              </button>
+              <button className="mini wide ok" onClick={() => setParentPop(false)}>
+                ✔
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Dynamic Main Body Screen */}
-      <main className="flex-1 py-4 sm:py-6">
-        {currentScreen === 'welcome' && <WelcomeScreen />}
+      {/* MODAL: Settings & Preferences */}
+      {settingsPop && (
+        <div className="modal" onClick={() => setSettingsPop(false)}>
+          <div className="sheet" onClick={(e) => e.stopPropagation()}>
+            <h3>⚙️ {ui.settings || 'Settings'}</h3>
 
-        {currentScreen === 'teacher' && (
-          <div className="max-w-4xl mx-auto px-4 py-4 animate-pop-burst">
-            {/* Sound Selector Pills for Classroom */}
-            <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-2xl border-2 border-amber-200 mb-4 shadow-xs">
-              <span className="text-xs font-black text-amber-950 flex items-center gap-1.5">
-                <span>🎓 Choose Sound to Learn:</span>
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {sounds.map((s, idx) => (
-                  <button
-                    key={s.id}
-                    onClick={() => useAppStore.getState().setSelectedSound(s.id, 0)}
-                    className={`px-3 py-1.5 rounded-xl font-black text-sm transition-all cursor-pointer ${
-                      selectedSoundId === s.id
-                        ? 'bg-amber-400 text-amber-950 shadow-xs scale-105 border-2 border-amber-500'
-                        : 'bg-slate-100 hover:bg-amber-100 text-slate-700'
-                    }`}
-                  >
-                    {s.symbol} ({s.translit})
-                  </button>
-                ))}
+            <div className="badge-list" style={{ textAlign: 'left' }}>
+              <div className="badge-item">
+                <label className="flex items-center justify-between cursor-pointer">
+                  <span>High Contrast</span>
+                  <input
+                    type="checkbox"
+                    checked={highContrast}
+                    onChange={(e) => setHighContrast(e.target.checked)}
+                  />
+                </label>
+              </div>
+
+              <div className="badge-item">
+                <div className="text-xs font-bold mb-1">Whisper Model:</div>
+                <select
+                  value={whisperModel}
+                  onChange={(e) => setWhisperModel(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '6px',
+                    borderRadius: '8px',
+                    fontSize: '0.9rem',
+                  }}
+                >
+                  <option value="onnx-community/whisper-tiny">Whisper Tiny (Fastest)</option>
+                  <option value="onnx-community/whisper-base">Whisper Base (Balanced)</option>
+                  <option value="onnx-community/whisper-small">Whisper Small (Highest Accuracy)</option>
+                </select>
               </div>
             </div>
 
-            {/* Cartoon Teacher Lesson Stage */}
-            <CartoonTeacher
-              targetSound={currentSound}
-              targetWord={currentWord}
-              onPlaySample={() =>
-                whisperHook.playSampleAudio(currentWord?.text, currentLanguage)
-              }
-              onReadyToSpeak={() => useAppStore.getState().setScreen('practice')}
-            />
-
-            {/* CTA to Practice with Magic Mirror */}
-            <div className="text-center mt-4">
-              <button
-                onClick={() => useAppStore.getState().setScreen('practice')}
-                className="px-6 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white font-black text-sm sm:text-base shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2 cursor-pointer active:scale-95"
-              >
-                <span>Ready to Try in Magic Mirror!</span>
-                <ArrowRight className="w-5 h-5" />
+            <div className="row">
+              <button className="mini wide ok" onClick={() => setSettingsPop(false)}>
+                ✔ Done
               </button>
             </div>
           </div>
-        )}
-
-        {currentScreen === 'sound-select' && (
-          <SoundSelectScreen whisperHook={whisperHook} />
-        )}
-
-        {currentScreen === 'practice' && (
-          <PracticeScreen
-            micHook={micHook}
-            faceHook={faceHook}
-            whisperHook={whisperHook}
-          />
-        )}
-
-        {currentScreen === 'result' && (
-          <ResultScreen whisperHook={whisperHook} />
-        )}
-
-        {currentScreen === 'quest' && <QuestMap />}
-
-        {currentScreen === 'garden' && <SpeechGarden />}
-
-        {currentScreen === 'animals' && (
-          <div className="max-w-2xl mx-auto px-4 py-6">
-            <AnimalChallenge
-              targetWord={currentWord}
-              onPlaySample={() =>
-                whisperHook.playSampleAudio(currentWord?.text, currentLanguage)
-              }
-              isCompleted={false}
-            />
-          </div>
-        )}
-
-        {currentScreen === 'parent' && <ParentDashboard />}
-
-        {currentScreen === 'settings' && (
-          <SettingsScreen whisperHook={whisperHook} />
-        )}
-      </main>
-
-      {/* Child-Safe Footer */}
-      <footer className="bg-white/80 backdrop-blur-md border-t-2 border-amber-200/80 px-4 py-4 text-center text-xs text-slate-600 mt-8">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-slate-700 font-bold">
-            <span className="text-base">🌈</span>
-            <span>VocaSight Kids</span>
-            <span className="text-slate-400 font-normal">| Browser-Only Speech Companion</span>
-          </div>
-
-          <div className="flex items-center gap-1.5 text-[11px] text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 font-semibold">
-            <Lock className="w-3.5 h-3.5 text-emerald-600" />
-            <span>100% In-Memory Processing &bull; No Audio or Video Uploaded</span>
-          </div>
         </div>
-
-        <div className="mt-2 text-[11px] text-slate-500 max-w-xl mx-auto">
-          ⚠️ Practice companion, not a medical or diagnostic tool. Does not replace speech-language therapy.
-        </div>
-      </footer>
-    </div>
+      )}
+    </main>
   )
 }

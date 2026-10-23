@@ -23,6 +23,7 @@ import { Waveform } from './Waveform'
 import { SpeechBuddy } from './SpeechBuddy'
 import { BreathingExercise } from './BreathingExercise'
 import { CartoonTeacher } from './CartoonTeacher'
+import { AnimalChallenge } from './AnimalChallenge'
 import { GraduationCap } from 'lucide-react'
 import confetti from 'canvas-confetti'
 

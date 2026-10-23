@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 
-export function useWhisper({ defaultModelId = 'onnx-community/whisper-tiny' } = {}) {
+export function useWhisper({ defaultModelId = 'onnx-community/whisper-small' } = {}) {
   const [modelId, setModelId] = useState(defaultModelId)
   const [isModelLoading, setIsModelLoading] = useState(false)
   const [modelReady, setModelReady] = useState(false)

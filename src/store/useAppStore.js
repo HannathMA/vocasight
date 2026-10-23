@@ -10,7 +10,7 @@ export const useAppStore = create((set, get) => {
 
   const savedSettings = JSON.parse(
     localStorage.getItem('vocasight_settings') ||
-      '{"highContrast":false,"soundEffects":true,"pacing":"normal","whisperModelId":"onnx-community/whisper-tiny"}'
+      '{"highContrast":false,"soundEffects":true,"pacing":"normal","whisperModelId":"onnx-community/whisper-small"}'
   )
 
   const hasParentConsent = localStorage.getItem('vocasight_parent_consent') === 'true'
