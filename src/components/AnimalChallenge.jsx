@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Volume2, Sparkles, CheckCircle2 } from 'lucide-react'
 import { useAppStore } from '../store/useAppStore'
+import Elephant from '../Elephant.jsx'
 
 export function AnimalChallenge({
   targetWord,
@@ -95,7 +96,13 @@ export function AnimalChallenge({
       <div
         className={`p-4 rounded-2xl border-2 flex flex-col sm:flex-row items-center gap-3 ${selectedAnimal.bgColor}`}
       >
-        <div className="shrink-0 text-4xl sm:text-5xl">{selectedAnimal.emoji}</div>
+        <div className="shrink-0 flex items-center justify-center">
+          {selectedAnimal.id === 'elephant' ? (
+            <Elephant talking cheer={isCompleted} size={100} />
+          ) : (
+            <span className="text-4xl sm:text-5xl">{selectedAnimal.emoji}</span>
+          )}
+        </div>
         <div className="flex-1 text-center sm:text-left">
           <div className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-0.5">
             {selectedAnimal.name} says:

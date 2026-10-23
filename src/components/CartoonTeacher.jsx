@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { useAppStore } from '../store/useAppStore'
 import confetti from 'canvas-confetti'
+import Elephant from '../Elephant.jsx'
 
 export function CartoonTeacher({
   targetSound,
@@ -155,107 +156,12 @@ export function CartoonTeacher({
             title="Tap Teacher to demonstrate speech!"
             className="relative cursor-pointer group transition-transform hover:scale-105 active:scale-95"
           >
-            <div className="w-44 h-48 sm:w-48 sm:h-52 relative flex items-center justify-center">
-              {/* Teacher Owl / Cat Mascot Body */}
-              <svg viewBox="0 0 200 220" className="w-full h-full drop-shadow-lg">
-                <defs>
-                  <linearGradient id="teacherBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#FF9F1C" />
-                    <stop offset="100%" stop-color="#E76F51" />
-                  </linearGradient>
-                  <linearGradient id="tummyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#FFF3B0" />
-                    <stop offset="100%" stop-color="#FFE066" />
-                  </linearGradient>
-                  <linearGradient id="hatGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#264653" />
-                    <stop offset="100%" stop-color="#1D3557" />
-                  </linearGradient>
-                </defs>
-
-                {/* Body Shadow */}
-                <ellipse cx="100" cy="205" rx="60" ry="12" fill="rgba(0,0,0,0.15)" />
-
-                {/* Animated Head & Torso Group */}
-                <g className={isTeacherTalking ? 'animate-head-nod' : 'animate-gentle-bounce'}>
-                  {/* Outer Ears */}
-                  <polygon points="45,45 60,95 25,85" fill="#E76F51" />
-                  <polygon points="50,55 58,90 35,82" fill="#F4A261" />
-                  <polygon points="155,45 140,95 175,85" fill="#E76F51" />
-                  <polygon points="150,55 142,90 165,82" fill="#F4A261" />
-
-                  {/* Main Round Teacher Head */}
-                  <circle cx="100" cy="115" r="68" fill="url(#teacherBodyGrad)" stroke="#B54A32" stroke-width="3" />
-
-                  {/* Cheerful Tummy Bib */}
-                  <ellipse cx="100" cy="155" rx="42" ry="32" fill="url(#tummyGrad)" />
-
-                  {/* Teacher Glasses Frame */}
-                  <circle cx="75" cy="105" r="22" fill="#FFFFFF" stroke="#457B9D" stroke-width="4.5" />
-                  <circle cx="125" cy="105" r="22" fill="#FFFFFF" stroke="#457B9D" stroke-width="4.5" />
-                  <line x1="97" y1="105" x2="103" y2="105" stroke="#457B9D" stroke-width="5" stroke-linecap="round" />
-
-                  {/* Cartoon Pupils (Blinking eyes) */}
-                  <g className="animate-eye-blink origin-center">
-                    <circle cx="78" cy="105" r="9" fill="#1D3557" />
-                    <circle cx="122" cy="105" r="9" fill="#1D3557" />
-                    {/* Cute sparkle reflections */}
-                    <circle cx="75" cy="102" r="3" fill="#FFFFFF" />
-                    <circle cx="119" cy="102" r="3" fill="#FFFFFF" />
-                  </g>
-
-                  {/* Rosy Cheeks */}
-                  <ellipse cx="50" cy="125" rx="9" ry="6" fill="#E63946" opacity="0.6" />
-                  <ellipse cx="150" cy="125" rx="9" ry="6" fill="#E63946" opacity="0.6" />
-
-                  {/* Cute Beak / Nose */}
-                  <polygon points="100,118 92,128 108,128" fill="#F4A261" stroke="#E76F51" stroke-width="2" />
-
-                  {/* ANIMATED TALKING MOUTH */}
-                  <g transform="translate(100, 142)">
-                    {isTeacherTalking ? (
-                      /* Talking animated mouth */
-                      <g className="animate-cartoon-talk origin-center">
-                        <ellipse cx="0" cy="0" rx="16" ry="12" fill="#C1121F" stroke="#780000" stroke-width="2" />
-                        <ellipse cx="0" cy="-4" rx="11" ry="4" fill="#FFFFFF" />
-                        <ellipse cx="0" cy="4" rx="8" ry="4" fill="#E63946" />
-                      </g>
-                    ) : teacherMood === 'celebrating' ? (
-                      /* Big excited laughing smile */
-                      <path d="M -18 -4 Q 0 16 18 -4 Z" fill="#E63946" stroke="#9B2226" stroke-width="2.5" />
-                    ) : (
-                      /* Friendly resting smile */
-                      <path d="M -14 -2 Q 0 10 14 -2" fill="none" stroke="#780000" stroke-width="3" stroke-linecap="round" />
-                    )}
-                  </g>
-
-                  {/* Bowtie */}
-                  <polygon points="88,172 100,177 88,182" fill="#E63946" />
-                  <polygon points="112,172 100,177 112,182" fill="#E63946" />
-                  <circle cx="100" cy="177" r="4" fill="#F1FAEE" />
-
-                  {/* Graduation / Teacher Mortarboard Hat */}
-                  <polygon points="100,20 160,38 100,56 40,38" fill="url(#hatGrad)" stroke="#1D3557" stroke-width="2" />
-                  <rect x="75" y="42" width="50" height="16" rx="4" fill="#1D3557" />
-                  {/* Golden Tassel */}
-                  <circle cx="100" cy="38" r="4" fill="#FFD166" />
-                  <path d="M 100 38 Q 135 48 140 70" fill="none" stroke="#FFD166" stroke-width="3" />
-                  <rect x="136" y="70" width="8" height="12" rx="2" fill="#FF9F1C" />
-                </g>
-
-                {/* Animated Magic Pointer Wand */}
-                <g className="animate-teacher-pointer origin-[150px_160px]">
-                  <rect x="145" y="80" width="6" height="85" rx="3" fill="#8D5B32" transform="rotate(-30 150 160)" />
-                  {/* Star Pointer Tip */}
-                  <polygon
-                    points="108,68 114,80 128,82 118,92 120,105 108,98 96,105 98,92 88,82 102,80"
-                    fill="#FFD166"
-                    stroke="#FF9F1C"
-                    stroke-width="1.5"
-                    className="animate-pulse"
-                  />
-                </g>
-              </svg>
+            <div className="relative flex items-center justify-center p-2">
+              <Elephant
+                talking={isTeacherTalking}
+                cheer={teacherMood === 'celebrating'}
+                size={240}
+              />
             </div>
 
             {/* Click to Speak Hint Bubble */}
