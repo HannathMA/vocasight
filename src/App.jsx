@@ -15,7 +15,8 @@ import { SpeechGarden } from './components/SpeechGarden'
 import { AnimalChallenge } from './components/AnimalChallenge'
 import { ParentDashboard } from './components/ParentDashboard'
 import { SettingsScreen } from './components/SettingsScreen'
-import { AlertCircle, Lock, Sparkles, Heart } from 'lucide-react'
+import { CartoonTeacher } from './components/CartoonTeacher'
+import { AlertCircle, Lock, Sparkles, Heart, ArrowRight } from 'lucide-react'
 
 export default function App() {
   const { t } = useTranslation()
@@ -73,6 +74,53 @@ export default function App() {
       {/* Dynamic Main Body Screen */}
       <main className="flex-1 py-4 sm:py-6">
         {currentScreen === 'welcome' && <WelcomeScreen />}
+
+        {currentScreen === 'teacher' && (
+          <div className="max-w-4xl mx-auto px-4 py-4 animate-pop-burst">
+            {/* Sound Selector Pills for Classroom */}
+            <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-2xl border-2 border-amber-200 mb-4 shadow-xs">
+              <span className="text-xs font-black text-amber-950 flex items-center gap-1.5">
+                <span>🎓 Choose Sound to Learn:</span>
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {sounds.map((s, idx) => (
+                  <button
+                    key={s.id}
+                    onClick={() => useAppStore.getState().setSelectedSound(s.id, 0)}
+                    className={`px-3 py-1.5 rounded-xl font-black text-sm transition-all cursor-pointer ${
+                      selectedSoundId === s.id
+                        ? 'bg-amber-400 text-amber-950 shadow-xs scale-105 border-2 border-amber-500'
+                        : 'bg-slate-100 hover:bg-amber-100 text-slate-700'
+                    }`}
+                  >
+                    {s.symbol} ({s.translit})
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Cartoon Teacher Lesson Stage */}
+            <CartoonTeacher
+              targetSound={currentSound}
+              targetWord={currentWord}
+              onPlaySample={() =>
+                whisperHook.playSampleAudio(currentWord?.text, currentLanguage)
+              }
+              onReadyToSpeak={() => useAppStore.getState().setScreen('practice')}
+            />
+
+            {/* CTA to Practice with Magic Mirror */}
+            <div className="text-center mt-4">
+              <button
+                onClick={() => useAppStore.getState().setScreen('practice')}
+                className="px-6 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white font-black text-sm sm:text-base shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2 cursor-pointer active:scale-95"
+              >
+                <span>Ready to Try in Magic Mirror!</span>
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        )}
 
         {currentScreen === 'sound-select' && (
           <SoundSelectScreen whisperHook={whisperHook} />

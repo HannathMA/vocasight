@@ -12,6 +12,7 @@ import {
   Flame,
   Volume2,
   VolumeX,
+  GraduationCap,
 } from 'lucide-react'
 
 export function Navbar() {
@@ -30,6 +31,7 @@ export function Navbar() {
 
   const navItems = [
     { id: 'welcome', label: t('nav.home'), icon: Sparkles },
+    { id: 'teacher', label: 'Teacher 🐾', icon: GraduationCap },
     { id: 'sound-select', label: t('nav.practice'), icon: Sparkles },
     { id: 'quest', label: t('nav.quest'), icon: Map },
     { id: 'garden', label: t('nav.garden'), icon: Flower2 },

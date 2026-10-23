@@ -2,9 +2,9 @@
 
 @layer base {
   :root {
-    --font-child: 'Fredoka', 'Outfit', system-ui, sans-serif;
-    --font-indic-ml: 'Noto Sans Malayalam', sans-serif;
-    --font-indic-hi: 'Noto Sans Devanagari', sans-serif;
+    --font-child: 'Baloo 2', 'Fredoka', 'Outfit', system-ui, sans-serif;
+    --font-indic-ml: 'Baloo Chettan 2', 'Noto Sans Malayalam', sans-serif;
+    --font-indic-hi: 'Baloo 2', 'Noto Sans Devanagari', sans-serif;
     --font-indic-ta: 'Noto Sans Tamil', sans-serif;
     --font-indic-te: 'Noto Sans Telugu', sans-serif;
     --font-indic-kn: 'Noto Sans Kannada', sans-serif;
@@ -58,6 +58,48 @@
   100% { transform: translateY(0px) rotate(0deg); }
 }
 
+/* CARTOON TEACHER MOTION ANIMATIONS */
+@keyframes cartoon-talk {
+  0%, 100% { transform: scaleY(0.4) scaleX(1); }
+  25% { transform: scaleY(1.3) scaleX(1.1); }
+  50% { transform: scaleY(0.6) scaleX(0.9); }
+  75% { transform: scaleY(1.2) scaleX(1.05); }
+}
+
+@keyframes teacher-pointer {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(14deg); }
+}
+
+@keyframes head-nod {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-4px) rotate(-3deg); }
+  75% { transform: translateY(3px) rotate(3deg); }
+}
+
+@keyframes eye-blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+@keyframes wiggle-fun {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg) scale(1.04); }
+  75% { transform: rotate(5deg) scale(1.04); }
+}
+
+@keyframes chalk-star {
+  0% { transform: rotate(0deg) scale(0.9); }
+  50% { transform: rotate(180deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(0.9); }
+}
+
+@keyframes pop-burst {
+  0% { transform: scale(0.85); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 .animate-gentle-bounce {
   animation: bounce-gentle 2.5s ease-in-out infinite;
 }
@@ -68,6 +110,46 @@
 
 .animate-float {
   animation: float-bubble 4s ease-in-out infinite;
+}
+
+.animate-cartoon-talk {
+  animation: cartoon-talk 0.35s ease-in-out infinite;
+}
+
+.animate-teacher-pointer {
+  animation: teacher-pointer 1.2s ease-in-out infinite;
+}
+
+.animate-head-nod {
+  animation: head-nod 2s ease-in-out infinite;
+}
+
+.animate-eye-blink {
+  animation: eye-blink 3.5s ease-in-out infinite;
+}
+
+.animate-wiggle-fun {
+  animation: wiggle-fun 1.6s ease-in-out infinite;
+}
+
+.animate-chalk-star {
+  animation: chalk-star 6s linear infinite;
+}
+
+.animate-pop-burst {
+  animation: pop-burst 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Blackboard chalk styling */
+.chalkboard-bg {
+  background: radial-gradient(circle at 50% 40%, #1e3a2f 0%, #0d231a 100%);
+  border: 8px solid #8d5b32;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.6), 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.chalk-text {
+  color: #fff9e6;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 240, 180, 0.4);
 }
 
 /* Script font helpers */

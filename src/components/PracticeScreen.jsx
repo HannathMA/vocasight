@@ -21,8 +21,9 @@ import { routePracticeTrack } from '../engine/patternRouter'
 import { MouthMirror } from './MouthMirror'
 import { Waveform } from './Waveform'
 import { SpeechBuddy } from './SpeechBuddy'
-import { AnimalChallenge } from './AnimalChallenge'
 import { BreathingExercise } from './BreathingExercise'
+import { CartoonTeacher } from './CartoonTeacher'
+import { GraduationCap } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
 export function PracticeScreen({ micHook, faceHook, whisperHook }) {
@@ -44,6 +45,7 @@ export function PracticeScreen({ micHook, faceHook, whisperHook }) {
 
   const [pacingProgress, setPacingProgress] = useState(0) // 0 to 1
   const [showBreathingModal, setShowBreathingModal] = useState(false)
+  const [showTeacherLesson, setShowTeacherLesson] = useState(true)
   const [isProcessing, setIsProcessing] = useState(false)
   const [playbackAudioUrl, setPlaybackAudioUrl] = useState(null)
   const pacingTimerRef = useRef(null)
@@ -255,6 +257,18 @@ export function PracticeScreen({ micHook, faceHook, whisperHook }) {
           )}
 
           <button
+            onClick={() => setShowTeacherLesson(!showTeacherLesson)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold text-xs cursor-pointer border transition-all ${
+              showTeacherLesson
+                ? 'bg-amber-400 text-amber-950 border-amber-500 shadow-xs'
+                : 'bg-white hover:bg-amber-100 text-amber-800 border-amber-300'
+            }`}
+          >
+            <GraduationCap className="w-4 h-4 text-amber-900" />
+            <span>{showTeacherLesson ? 'Hide Teacher 🐾' : 'Show Cartoon Teacher 🐾'}</span>
+          </button>
+
+          <button
             onClick={() => setScreen('sound-select')}
             className="text-xs font-bold text-slate-500 hover:text-slate-800 underline cursor-pointer"
           >
@@ -262,6 +276,18 @@ export function PracticeScreen({ micHook, faceHook, whisperHook }) {
           </button>
         </div>
       </div>
+
+      {/* Cartoon Teacher Lesson Stage */}
+      {showTeacherLesson && (
+        <div className="animate-pop-burst mb-5">
+          <CartoonTeacher
+            targetSound={currentSound}
+            targetWord={currentWord}
+            onPlaySample={handlePlaySample}
+            onReadyToSpeak={handleStartSpeaking}
+          />
+        </div>
+      )}
 
       {/* Articulation / Fluency Ladder Progression Tabs */}
       {(currentTrack === 'articulation' || currentTrack === 'fluency') && (
