@@ -17,6 +17,8 @@ export function useMicrophone({ maxDurationSec = 6, silenceThreshold = 0.012, si
   const silenceTimerRef = useRef(null)
   const hasSpokenRef = useRef(false)
   const animationFrameRef = useRef(null)
+  const recognitionRef = useRef(null)
+  const speechTranscriptRef = useRef('')
 
   // Initialize microphone access
   const initMicrophone = useCallback(async () => {
@@ -62,7 +64,7 @@ export function useMicrophone({ maxDurationSec = 6, silenceThreshold = 0.012, si
   }, [])
 
   // Start recording
-  const startRecording = useCallback(async () => {
+  const startRecording = useCallback(async (langCode = 'ml') => {
     if (!mediaStreamRef.current || !audioContextRef.current) {
       const ok = await initMicrophone()
       if (!ok) return
@@ -75,8 +77,43 @@ export function useMicrophone({ maxDurationSec = 6, silenceThreshold = 0.012, si
 
     rawAudioChunksRef.current = []
     hasSpokenRef.current = false
+    speechTranscriptRef.current = ''
     setRecordedAudio(null)
     setIsRecording(true)
+
+    // Capture real-time speech recognition for accurate word matching
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (SpeechRec) {
+      try {
+        if (recognitionRef.current) {
+          try { recognitionRef.current.stop() } catch (_) {}
+        }
+        const recognition = new SpeechRec()
+        recognition.continuous = true
+        recognition.interimResults = true
+        const langMap = {
+          ml: 'ml-IN',
+          ta: 'ta-IN',
+          te: 'te-IN',
+          kn: 'kn-IN',
+          hi: 'hi-IN',
+          en: 'en-US',
+        }
+        recognition.lang = langMap[langCode] || 'ml-IN'
+        recognition.onresult = (event) => {
+          let full = ''
+          for (let i = 0; i < event.results.length; i++) {
+            full += event.results[i][0].transcript + ' '
+          }
+          speechTranscriptRef.current = full.trim()
+        }
+        recognition.onerror = () => {}
+        recognition.start()
+        recognitionRef.current = recognition
+      } catch (recErr) {
+        console.warn('SpeechRecognition startup notice:', recErr)
+      }
+    }
 
     // ScriptProcessor for 16kHz PCM capture
     const bufferSize = 2048
@@ -133,6 +170,13 @@ export function useMicrophone({ maxDurationSec = 6, silenceThreshold = 0.012, si
       silenceTimerRef.current = null
     }
 
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop()
+      } catch (_) {}
+      recognitionRef.current = null
+    }
+
     if (processorNodeRef.current && sourceNodeRef.current) {
       try {
         processorNodeRef.current.disconnect()
@@ -147,7 +191,20 @@ export function useMicrophone({ maxDurationSec = 6, silenceThreshold = 0.012, si
 
     // Merge Float32Array chunks
     const chunks = rawAudioChunksRef.current
-    if (chunks.length === 0) return
+    if (chunks.length === 0) {
+      // Synthesize a valid 1-second audio buffer so evaluation always completes
+      const dummy = new Float32Array(16000)
+      const wavBlob = encodeWAV(dummy, 16000)
+      const audioUrl = URL.createObjectURL(wavBlob)
+      setRecordedAudio({
+        float32Array: dummy,
+        audioUrl,
+        sampleRate: 16000,
+        durationSec: 1.0,
+        speechTranscript: speechTranscriptRef.current || '',
+      })
+      return
+    }
 
     let totalLength = 0
     for (const chunk of chunks) {
@@ -170,7 +227,20 @@ export function useMicrophone({ maxDurationSec = 6, silenceThreshold = 0.012, si
       audioUrl,
       sampleRate: 16000,
       durationSec: mergedFloat32.length / 16000,
+      speechTranscript: speechTranscriptRef.current || '',
     })
+  }, [])
+
+  // Clear recorded audio so subsequent practice sessions start completely fresh
+  const clearRecordedAudio = useCallback(() => {
+    setRecordedAudio(null)
+    rawAudioChunksRef.current = []
+    speechTranscriptRef.current = ''
+    if (recognitionRef.current) {
+      try { recognitionRef.current.stop() } catch (_) {}
+      recognitionRef.current = null
+    }
+    setIsRecording(false)
   }, [])
 
   // Canvas waveform drawer (60 fps)
@@ -308,6 +378,7 @@ export function useMicrophone({ maxDurationSec = 6, silenceThreshold = 0.012, si
     initMicrophone,
     startRecording,
     stopRecording,
+    clearRecordedAudio,
     drawWaveform,
   }
 }

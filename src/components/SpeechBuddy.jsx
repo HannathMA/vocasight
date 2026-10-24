@@ -11,6 +11,7 @@ export function SpeechBuddy({
   const { soundPack, currentLanguage, setScreen } = useAppStore()
   const [currentPhrase, setCurrentPhrase] = useState('')
   const [isWaving, setIsWaving] = useState(false)
+  const [isHeartEyes, setIsHeartEyes] = useState(false)
 
   const phrases = soundPack?.buddyPhrases || {}
 
@@ -27,7 +28,34 @@ export function SpeechBuddy({
 
   const handleBuddyClick = () => {
     setIsWaving(true)
-    setTimeout(() => setIsWaving(false), 1200)
+    setIsHeartEyes(true)
+
+    // Play cute synthesized chime
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext
+      if (AudioCtx) {
+        const ctx = new AudioCtx()
+        const notes = [659.25, 783.99, 1046.50]
+        notes.forEach((f, i) => {
+          const osc = ctx.createOscillator()
+          const gain = ctx.createGain()
+          osc.type = 'triangle'
+          osc.frequency.setValueAtTime(f, ctx.currentTime + i * 0.08)
+          gain.gain.setValueAtTime(0.001, ctx.currentTime + i * 0.08)
+          gain.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + i * 0.08 + 0.02)
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.15)
+          osc.connect(gain)
+          gain.connect(ctx.destination)
+          osc.start(ctx.currentTime + i * 0.08)
+          osc.stop(ctx.currentTime + i * 0.08 + 0.2)
+        })
+      }
+    } catch (_) {}
+
+    setTimeout(() => {
+      setIsWaving(false)
+      setIsHeartEyes(false)
+    }, 2200)
 
     if (onPronounce) {
       onPronounce()
@@ -50,28 +78,36 @@ export function SpeechBuddy({
       {/* Cute Interactive Robot Mascot */}
       <button
         onClick={handleBuddyClick}
-        title="Tap Robo-Buddy for a cheerful cheer!"
-        className={`relative shrink-0 w-20 h-20 rounded-2xl bg-gradient-to-b from-teal-300 via-teal-400 to-teal-500 border-3 border-teal-600 shadow-md flex items-center justify-center p-2 cursor-pointer transition-transform hover:scale-108 active:scale-95 ${
-          isWaving ? 'animate-bounce' : 'animate-gentle-bounce'
+        onTouchStart={handleBuddyClick}
+        title="Tap Robo-Buddy to dance & show love!"
+        className={`relative shrink-0 w-20 h-20 rounded-2xl bg-gradient-to-b from-teal-300 via-teal-400 to-teal-500 border-3 border-teal-600 shadow-md flex items-center justify-center p-2 cursor-pointer transition-transform hover:scale-110 active:scale-95 ${
+          isWaving ? 'animate-robo-groove' : 'animate-gentle-bounce'
         }`}
       >
         {/* Antenna */}
         <div className="absolute -top-3 w-2 h-3.5 bg-teal-600 rounded-full flex flex-col items-center">
-          <div className="w-3.5 h-3.5 -mt-2 bg-amber-400 rounded-full border-2 border-teal-700 animate-ping" />
+          <div className={`w-3.5 h-3.5 -mt-2 rounded-full border-2 border-teal-700 ${isWaving ? 'bg-pink-400 animate-ping' : 'bg-amber-400 animate-pulse'}`} />
         </div>
 
         {/* Robot Face Screen */}
         <div className="w-full h-full bg-slate-900 rounded-xl border-2 border-teal-200/60 flex flex-col items-center justify-center p-1 relative overflow-hidden">
           {/* Eyes */}
-          <div className="flex items-center gap-3">
-            <div className="w-3.5 h-3.5 rounded-full bg-cyan-300 shadow-[0_0_8px_#67e8f9] animate-pulse" />
-            <div className="w-3.5 h-3.5 rounded-full bg-cyan-300 shadow-[0_0_8px_#67e8f9] animate-pulse" />
-          </div>
+          {isHeartEyes ? (
+            <div className="flex items-center gap-2 text-rose-400 text-sm animate-pulse">
+              <span>❤️</span>
+              <span>❤️</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <div className="w-3.5 h-3.5 rounded-full bg-cyan-300 shadow-[0_0_8px_#67e8f9] animate-pulse" />
+              <div className="w-3.5 h-3.5 rounded-full bg-cyan-300 shadow-[0_0_8px_#67e8f9] animate-pulse" />
+            </div>
+          )}
           {/* Smiling mouth LEDs */}
-          <div className="w-6 h-1.5 mt-1.5 bg-emerald-400 rounded-full shadow-[0_0_6px_#34d399]" />
+          <div className={`mt-1.5 rounded-full ${isHeartEyes ? 'w-5 h-2 bg-pink-400 shadow-[0_0_8px_#f43f5e]' : 'w-6 h-1.5 bg-emerald-400 shadow-[0_0_6px_#34d399]'}`} />
           {/* Cheerful rosy cheeks */}
-          <div className="absolute bottom-1.5 left-1.5 w-2 h-1 bg-rose-400/80 rounded-full" />
-          <div className="absolute bottom-1.5 right-1.5 w-2 h-1 bg-rose-400/80 rounded-full" />
+          <div className="absolute bottom-1.5 left-1.5 w-2.5 h-1.5 bg-rose-400 rounded-full shadow-[0_0_4px_#fb7185]" />
+          <div className="absolute bottom-1.5 right-1.5 w-2.5 h-1.5 bg-rose-400 rounded-full shadow-[0_0_4px_#fb7185]" />
         </div>
 
         {/* Small Audio Speaker Badge */}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { MapPin, Lock, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react'
+import { MapPin, Lock, CheckCircle2, Sparkles, ArrowRight, Gamepad2 } from 'lucide-react'
 import { useAppStore } from '../store/useAppStore'
 
 export function QuestMap() {
@@ -132,12 +132,15 @@ export function QuestMap() {
           })}
         </div>
 
-        {/* Bottom Banner */}
+        {/* Bottom Banner with Alphabet Game Portal */}
         <div className="mt-8 pt-4 border-t-2 border-teal-200/60 flex flex-wrap items-center justify-between gap-3 text-xs font-bold text-teal-900 z-10">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🏆</span>
-            <span>Master all sounds to discover the Secret Golden Island!</span>
-          </div>
+          <button
+            onClick={() => setScreen('alphabet-game')}
+            className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white font-black flex items-center gap-2 shadow-md transition-transform active:scale-95 cursor-pointer"
+          >
+            <Gamepad2 className="w-4 h-4 text-amber-100" />
+            <span>🎮 Play Robo Alphabet Arena (Bonus Game!)</span>
+          </button>
           <button
             onClick={() => setScreen('sound-select')}
             className="text-teal-700 hover:text-teal-950 underline cursor-pointer"

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { companionVoice } from '../services/companionVoice'
 
 export function useWhisper({ defaultModelId = 'onnx-community/whisper-small' } = {}) {
   const [modelId, setModelId] = useState(defaultModelId)
@@ -100,10 +101,18 @@ export function useWhisper({ defaultModelId = 'onnx-community/whisper-small' } =
 
   // Transcribe audio
   const transcribeAudio = useCallback(
-    (audioFloat32Array, whisperLang = 'english', targetWord = '') => {
+    (audioFloat32Array, whisperLang = 'english', targetWord = '', speechTranscript = '') => {
       return new Promise((resolve) => {
-        if (!workerRef.current) {
-          resolve({ text: targetWord, words: [], isFallback: true })
+        // If live SpeechRecognition captured what was spoken, return it so accurate matching occurs
+        if (speechTranscript && speechTranscript.trim()) {
+          resolve({ text: speechTranscript.trim(), words: [], isFallback: false })
+          return
+        }
+
+        // If worker is missing or model is still downloading in background, return speechTranscript or empty string
+        // so that wrong speech or silence is NEVER falsely marked correct!
+        if (!workerRef.current || !modelReady) {
+          resolve({ text: speechTranscript || '', words: [], isFallback: true })
           return
         }
 
@@ -120,45 +129,28 @@ export function useWhisper({ defaultModelId = 'onnx-community/whisper-small' } =
           },
         })
 
-        // Safety timeout of 12 seconds in case onnx pipeline takes too long
+        // Snappy safety timeout of 3.5s so kids are never stuck waiting
         setTimeout(() => {
           if (pendingPromiseRef.current) {
-            console.warn('Whisper transcription timeout - providing safe fallback')
+            console.warn('Whisper transcription timeout - providing fallback')
             pendingPromiseRef.current.resolve({
-              text: targetWord,
+              text: speechTranscript || '',
               words: [],
               isFallback: true,
             })
             pendingPromiseRef.current = null
             setIsTranscribing(false)
           }
-        }, 12000)
+        }, 3500)
       })
     },
-    [modelId]
+    [modelId, modelReady]
   )
 
-  // Speech synthesis fallback for sample audio
-  const playSampleAudio = useCallback((text, langCode = 'en') => {
+  // Speech synthesis audio for target words with multi-language support
+  const playSampleAudio = useCallback((text, langCode = 'ml') => {
     try {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel() // stop any active
-        const utterance = new SpeechSynthesisUtterance(text)
-
-        // Map language code to BCP 47
-        const langMap = {
-          ml: 'ml-IN',
-          hi: 'hi-IN',
-          en: 'en-US',
-          ta: 'ta-IN',
-          te: 'te-IN',
-          kn: 'kn-IN',
-        }
-        utterance.lang = langMap[langCode] || 'en-US'
-        utterance.rate = 0.85 // child-friendly slower pace
-        utterance.pitch = 1.15 // friendly cheerful pitch
-        window.speechSynthesis.speak(utterance)
-      }
+      companionVoice.speak(text, langCode, false)
     } catch (e) {
       console.warn('Speech synthesis error:', e)
     }

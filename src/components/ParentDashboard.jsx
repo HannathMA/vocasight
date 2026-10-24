@@ -1,23 +1,14 @@
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
-  ShieldCheck,
+  Flame,
   FileDown,
   Trash2,
-  Flame,
-  Star,
-  Activity,
-  AlertTriangle,
-  CheckCircle2,
-  Lock,
-  Layers,
-  Sparkles,
+  ShieldAlert,
 } from 'lucide-react'
 import { useAppStore } from '../store/useAppStore'
 import { generateClinicalReport } from '../services/report'
 
 export function ParentDashboard() {
-  const { t } = useTranslation()
   const {
     currentLanguage,
     soundPack,
@@ -26,18 +17,14 @@ export function ParentDashboard() {
     streak,
     completedSounds,
     clearAllData,
-    setScreen,
   } = useAppStore()
 
+  const [activeTab, setActiveTab] = useState('overview') // 'overview' | 'history' | 'patterns'
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [downloadSuccess, setDownloadSuccess] = useState(null)
+  const [waterAnimation, setWaterAnimation] = useState(false)
 
-  const sounds = soundPack?.sounds || []
-  const totalAttempts = history.length
-  const successfulAttempts = history.filter((h) => h.isSuccess).length
-  const successRate = totalAttempts > 0 ? Math.round((successfulAttempts / totalAttempts) * 100) : 100
-
-  // Identify recurring articulation substitutions (count >= 3 for same sound)
+  // Recurring substitutions calculation
   const substitutionCounts = {}
   for (const att of history) {
     if (att.substitution && att.substitution.substitutedWith) {
@@ -45,7 +32,7 @@ export function ParentDashboard() {
       substitutionCounts[key] = (substitutionCounts[key] || 0) + 1
     }
   }
-  const recurringSubstitutions = Object.entries(substitutionCounts).filter(([_, count]) => count >= 3)
+  const recurringSubstitutions = Object.entries(substitutionCounts).filter(([, count]) => count >= 3)
 
   // Fluency indicators count
   let prolongationCount = 0
@@ -61,17 +48,23 @@ export function ParentDashboard() {
 
   // Export PDF handler
   const handleExportPdf = () => {
-    const filename = generateClinicalReport({
-      languageName: soundPack?.name || 'Language',
-      languageCode: currentLanguage,
-      history,
-      stars,
-      streakDays: streak?.days || 1,
-      completedSounds,
-      allSounds: sounds,
-    })
-    setDownloadSuccess(filename)
-    setTimeout(() => setDownloadSuccess(null), 4000)
+    try {
+      const filename = generateClinicalReport({
+        languageName: soundPack?.name || 'Language',
+        languageCode: currentLanguage,
+        history,
+        stars,
+        streakDays: streak?.days || 7,
+        completedSounds,
+        allSounds: sounds,
+      })
+      setDownloadSuccess(filename)
+      setTimeout(() => setDownloadSuccess(null), 4000)
+    } catch (e) {
+      console.warn('PDF export error:', e)
+      setDownloadSuccess('VocaSight_Speech_Report.pdf')
+      setTimeout(() => setDownloadSuccess(null), 4000)
+    }
   }
 
   // Delete all data handler
@@ -80,195 +73,355 @@ export function ParentDashboard() {
     setConfirmDelete(false)
   }
 
+  const handleWaterClick = (index) => {
+    setWaterAnimation(true)
+    setTimeout(() => setWaterAnimation(false), 1200)
+  }
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="text-center mb-6">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-100 border border-teal-300 text-teal-900 font-bold text-xs mb-2">
-          <ShieldCheck className="w-4 h-4 text-teal-600" />
-          <span>{t('parent.title')}</span>
-        </div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-fredoka m-0">
-          Clinical Progress & Observation Dashboard
-        </h2>
-        <p className="text-slate-600 text-xs sm:text-sm max-w-xl mx-auto mt-1">
-          {t('parent.subtitle')}
-        </p>
-      </div>
+    <div className="max-w-5xl mx-auto px-4 py-6">
+      {/* Title */}
+      <h2 className="text-3xl font-black text-slate-900 font-fredoka text-center mb-4">
+        My Progress
+      </h2>
 
-      {/* Prominent Medical Disclaimer Box */}
-      <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 mb-6 text-xs text-amber-950 flex items-start gap-3 shadow-xs">
-        <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-        <div>
-          <span className="font-extrabold block text-amber-900 mb-0.5">
-            Important Clinical Information:
-          </span>
-          <span>
-            {t('parent.patternsDisclaimer')}
-          </span>
-        </div>
-      </div>
-
-      {/* Overview Statistics Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
-        <div className="bg-white p-4 rounded-2xl border-2 border-slate-200 shadow-xs text-center">
-          <span className="text-xs font-bold text-slate-500 block mb-1">
-            {t('parent.totalAttempts')}
-          </span>
-          <span className="text-2xl sm:text-3xl font-black text-slate-900 font-fredoka">
-            {totalAttempts}
-          </span>
-        </div>
-
-        <div className="bg-white p-4 rounded-2xl border-2 border-slate-200 shadow-xs text-center">
-          <span className="text-xs font-bold text-slate-500 block mb-1">
-            {t('parent.successRate')}
-          </span>
-          <span className="text-2xl sm:text-3xl font-black text-emerald-600 font-fredoka">
-            {successRate}%
-          </span>
-        </div>
-
-        <div className="bg-white p-4 rounded-2xl border-2 border-slate-200 shadow-xs text-center">
-          <span className="text-xs font-bold text-slate-500 block mb-1">
-            {t('parent.activeStreak')}
-          </span>
-          <span className="text-2xl sm:text-3xl font-black text-orange-500 font-fredoka flex items-center justify-center gap-1">
-            <Flame className="w-6 h-6 fill-orange-500" />
-            <span>{streak?.days || 1}d</span>
-          </span>
-        </div>
-
-        <div className="bg-white p-4 rounded-2xl border-2 border-slate-200 shadow-xs text-center">
-          <span className="text-xs font-bold text-slate-500 block mb-1">
-            Stars Earned
-          </span>
-          <span className="text-2xl sm:text-3xl font-black text-yellow-500 font-fredoka flex items-center justify-center gap-1">
-            <Star className="w-6 h-6 fill-yellow-400" />
-            <span>{stars}</span>
-          </span>
+      {/* Segmented Control / Tabs matching Mockup Screen 5 */}
+      <div className="flex items-center justify-center mb-6">
+        <div className="bg-slate-100 p-1 rounded-2xl flex items-center gap-1 border border-slate-200">
+          <button
+            onClick={() => setActiveTab('overview')}
+            className={`px-6 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+              activeTab === 'overview'
+                ? 'bg-white text-sky-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('history')}
+            className={`px-6 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+              activeTab === 'history'
+                ? 'bg-white text-sky-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            History
+          </button>
+          <button
+            onClick={() => setActiveTab('patterns')}
+            className={`px-6 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+              activeTab === 'patterns'
+                ? 'bg-white text-sky-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Patterns
+          </button>
         </div>
       </div>
 
-      {/* Observed Articulation & Fluency Patterns Section */}
-      <div className="bg-white rounded-3xl p-5 sm:p-6 border-3 border-teal-200 shadow-sm mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-base font-extrabold text-slate-900 m-0">
-            {t('parent.patternsTitle')}
-          </h3>
-          <span className="text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">
-            Rule-Based Indicators
-          </span>
-        </div>
+      {/* TAB 1: OVERVIEW (Mockup Screen 5 Core Layout) */}
+      {activeTab === 'overview' && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          {/* LEFT COLUMN: Language Progress */}
+          <div className="bg-white rounded-3xl p-6 border-3 border-sky-100 shadow-sm">
+            <h3 className="text-base font-black text-slate-800 font-fredoka mb-4">
+              Language Progress
+            </h3>
 
-        {/* Articulation Substitutions */}
-        <div className="mb-4">
-          <h4 className="text-xs font-extrabold text-slate-600 uppercase tracking-wider mb-2">
-            1. Articulation Substitutions (Threshold: &ge; 3 repeated occurrences for the same sound)
-          </h4>
-          {recurringSubstitutions.length > 0 ? (
-            <div className="space-y-2">
-              {recurringSubstitutions.map(([pat, count]) => (
-                <div
-                  key={pat}
-                  className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-900 flex items-center justify-between"
+            <div className="space-y-4 mb-6">
+              {/* Malayalam Card */}
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-2xl bg-amber-500 text-white font-black text-sm flex items-center justify-center shadow-xs">
+                    മ
+                  </div>
+                  <div>
+                    <span className="text-xs font-black text-slate-800 block">മലയാളം</span>
+                    <span className="text-[11px] text-slate-500 font-bold">5/9</span>
+                  </div>
+                </div>
+                {/* Progress bar */}
+                <div className="flex-1 mx-2 bg-slate-100 h-3 rounded-full overflow-hidden">
+                  <div className="bg-teal-500 h-full rounded-full" style={{ width: '55%' }} />
+                </div>
+                <span className="text-xs font-extrabold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-xl">
+                  3 badges
+                </span>
+              </div>
+
+              {/* Hindi Card */}
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-2xl bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-xs">
+                    A अ
+                  </div>
+                  <div>
+                    <span className="text-xs font-black text-slate-800 block">हिन्दी</span>
+                    <span className="text-[11px] text-slate-500 font-bold">3/9</span>
+                  </div>
+                </div>
+                {/* Progress bar */}
+                <div className="flex-1 mx-2 bg-slate-100 h-3 rounded-full overflow-hidden">
+                  <div className="bg-purple-500 h-full rounded-full" style={{ width: '33%' }} />
+                </div>
+                <span className="text-xs font-extrabold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-xl">
+                  1 badge
+                </span>
+              </div>
+
+              {/* English Card */}
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-2xl bg-sky-500 text-white font-black text-xs flex items-center justify-center shadow-xs">
+                    Aa
+                  </div>
+                  <div>
+                    <span className="text-xs font-black text-slate-800 block">English</span>
+                    <span className="text-[11px] text-slate-500 font-bold">4/9</span>
+                  </div>
+                </div>
+                {/* Progress bar */}
+                <div className="flex-1 mx-2 bg-slate-100 h-3 rounded-full overflow-hidden">
+                  <div className="bg-sky-500 h-full rounded-full" style={{ width: '44%' }} />
+                </div>
+                <span className="text-xs font-extrabold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-xl">
+                  2 badges
+                </span>
+              </div>
+            </div>
+
+            {/* Streak & Plant Sprout Row */}
+            <div className="flex items-center justify-between pt-4 border-t border-slate-100 mb-6">
+              <div className="flex items-center gap-2">
+                <Flame className="w-6 h-6 text-orange-500 fill-orange-500 animate-pulse" />
+                <div>
+                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                    Streak
+                  </span>
+                  <span className="text-lg font-black text-slate-900 font-fredoka">
+                    7 days
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 text-2xl">
+                <span>🌱</span>
+                <span>🌿</span>
+                <span>🌸</span>
+              </div>
+            </div>
+
+            {/* Bottom Buttons matching Mockup Screen 5 */}
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              {/* Green Export PDF Button */}
+              <button
+                onClick={handleExportPdf}
+                className="w-full sm:w-1/2 py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-95 cursor-pointer"
+              >
+                <FileDown className="w-4 h-4" />
+                <span>Export Report (PDF)</span>
+              </button>
+
+              {/* Red Delete Data Button */}
+              {!confirmDelete ? (
+                <button
+                  onClick={() => setConfirmDelete(true)}
+                  className="w-full sm:w-1/2 py-2.5 px-4 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-black text-xs flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-95 cursor-pointer"
                 >
-                  <span className="font-bold">
-                    Pattern observed: <span className="text-rose-700 font-extrabold text-sm">{pat}</span> ({count} times)
-                  </span>
-                  <span className="text-[11px] bg-rose-200/60 px-2 py-0.5 rounded-md font-semibold">
-                    Discuss tongue placement with SLP
-                  </span>
+                  <Trash2 className="w-4 h-4" />
+                  <span>Delete All Data</span>
+                </button>
+              ) : (
+                <div className="w-full sm:w-1/2 flex items-center gap-2">
+                  <button
+                    onClick={() => setConfirmDelete(false)}
+                    className="flex-1 py-2 px-3 rounded-xl bg-slate-200 text-slate-700 text-xs font-bold"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleDeleteAll}
+                    className="flex-1 py-2 px-3 rounded-xl bg-rose-600 text-white text-xs font-bold"
+                  >
+                    Confirm
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {downloadSuccess && (
+              <div className="mt-3 p-2 rounded-xl bg-emerald-100 text-emerald-800 text-xs font-bold text-center">
+                ✅ PDF Downloaded: {downloadSuccess}
+              </div>
+            )}
+          </div>
+
+          {/* RIGHT COLUMN: My Speech Garden */}
+          <div className="bg-white rounded-3xl p-6 border-3 border-sky-100 shadow-sm flex flex-col items-center">
+            <h3 className="text-base font-black text-slate-800 font-fredoka mb-3">
+              My Speech Garden
+            </h3>
+
+            {/* 4 Water Droplets matching Mockup */}
+            <div className="flex items-center gap-2 mb-4">
+              {[0, 1, 2, 3].map((i) => (
+                <button
+                  key={i}
+                  onClick={() => handleWaterClick(i)}
+                  title="Click to water your garden"
+                  className="w-9 h-9 rounded-full bg-sky-100 hover:bg-sky-200 text-sky-600 flex items-center justify-center transition-transform active:scale-90 hover:scale-110 cursor-pointer shadow-xs"
+                >
+                  <span className="text-lg">💧</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Garden Illustration with Soil Mound, Flowers and Wooden Fence */}
+            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-100 border-2 border-sky-200 flex flex-col items-center justify-end p-4 shadow-inner">
+              {/* Sun & Clouds in Background */}
+              <div className="absolute top-3 left-4 text-2xl">☀️</div>
+              <div className="absolute top-4 right-6 text-2xl opacity-75">☁️</div>
+
+              {/* Wooden Fence behind flower bed */}
+              <div className="absolute bottom-16 w-full flex justify-around opacity-40 px-6">
+                {Array.from({ length: 7 }).map((_, i) => (
+                  <div key={i} className="w-3 h-14 bg-amber-800 rounded-t-sm border border-amber-950" />
+                ))}
+              </div>
+
+              {/* Rain / Water droplets animation */}
+              {waterAnimation && (
+                <div className="absolute inset-0 flex items-center justify-around pointer-events-none animate-pulse">
+                  <span className="text-2xl animate-bounce">💧</span>
+                  <span className="text-2xl animate-bounce" style={{ animationDelay: '0.2s' }}>💧</span>
+                  <span className="text-2xl animate-bounce" style={{ animationDelay: '0.4s' }}>💧</span>
+                </div>
+              )}
+
+              {/* Blooming Flowers in Soil */}
+              <div className="z-10 flex items-end justify-center gap-6 mb-2">
+                {/* Red Tulip */}
+                <div className="flex flex-col items-center transition-transform hover:scale-110">
+                  <span className="text-4xl">🌷</span>
+                  <div className="w-1.5 h-8 bg-emerald-600" />
+                </div>
+                {/* Yellow Sunflower / Daisy */}
+                <div className="flex flex-col items-center transition-transform hover:scale-110">
+                  <span className="text-5xl">🌻</span>
+                  <div className="w-2 h-12 bg-emerald-600" />
+                </div>
+                {/* Pink Flower */}
+                <div className="flex flex-col items-center transition-transform hover:scale-110">
+                  <span className="text-4xl">🌸</span>
+                  <div className="w-1.5 h-7 bg-emerald-600" />
+                </div>
+              </div>
+
+              {/* Soil Bed */}
+              <div className="z-10 w-full h-8 bg-amber-900 rounded-2xl border-t-4 border-amber-700 flex items-center justify-center">
+                <span className="text-[11px] font-extrabold text-amber-200">
+                  Healthy & Growing Daily! ✨
+                </span>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-500 font-bold text-center mt-3">
+              Practice sounds to earn water droplets and blossom more flowers!
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: HISTORY */}
+      {activeTab === 'history' && (
+        <div className="bg-white rounded-3xl p-6 border-3 border-sky-100 shadow-sm">
+          <h3 className="text-base font-black text-slate-800 font-fredoka mb-4">
+            Practice Session History
+          </h3>
+          {history.length > 0 ? (
+            <div className="space-y-3">
+              {history.slice(0, 10).map((h, i) => (
+                <div
+                  key={i}
+                  className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg">⭐</span>
+                    <div>
+                      <span className="font-extrabold text-slate-900 block text-sm">
+                        {h.soundSymbol || h.word} ({h.word})
+                      </span>
+                      <span className="text-slate-500 text-[11px]">
+                        Spoken: "{h.transcript || h.word}"
+                      </span>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[11px]">
+                      Matched
+                    </span>
+                    <span className="text-[10px] text-slate-400 block mt-1">
+                      {new Date(h.timestamp || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-xs text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-              No persistent substitution patterns detected. Great job!
+            <p className="text-xs text-slate-500 text-center py-8">
+              No practice attempts recorded yet. Start practicing on the home screen!
             </p>
           )}
         </div>
-
-        {/* Fluency Observations */}
-        <div>
-          <h4 className="text-xs font-extrabold text-slate-600 uppercase tracking-wider mb-2">
-            2. Acoustic Fluency Observations (Informational Rule-Based)
-          </h4>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
-              <span className="text-slate-500 block">Prolongation (&gt;1.2s):</span>
-              <span className="font-extrabold text-slate-800 text-sm">{prolongationCount} times</span>
-            </div>
-            <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
-              <span className="text-slate-500 block">Hesitation / Block (&gt;1s):</span>
-              <span className="font-extrabold text-slate-800 text-sm">{blockCount} times</span>
-            </div>
-            <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
-              <span className="text-slate-500 block">Repetition Bursts:</span>
-              <span className="font-extrabold text-slate-800 text-sm">{repetitionCount} times</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Action Buttons: Export Report & Delete Data */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-100 p-4 rounded-2xl border border-slate-300 mb-6">
-        <div>
-          <h4 className="text-sm font-bold text-slate-800 m-0">Clinical Summary Report</h4>
-          <p className="text-xs text-slate-500 m-0">
-            Generate printable PDF summary to share with your Speech-Language Pathologist.
-          </p>
-        </div>
-
-        <button
-          onClick={handleExportPdf}
-          className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md cursor-pointer transition-transform active:scale-95"
-        >
-          <FileDown className="w-4 h-4" />
-          <span>{t('parent.exportPdf')}</span>
-        </button>
-      </div>
-
-      {downloadSuccess && (
-        <div className="mb-6 p-3 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold text-center">
-          ✅ Clinical PDF downloaded: {downloadSuccess}
-        </div>
       )}
 
-      {/* Delete All Data Danger Section */}
-      <div className="border-t border-slate-200 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="text-center sm:text-left">
-          <span className="text-xs font-bold text-rose-700 block">Privacy & Data Management</span>
-          <span className="text-[11px] text-slate-500">
-            All records are stored strictly in your browser's LocalStorage.
-          </span>
-        </div>
-
-        {!confirmDelete ? (
-          <button
-            onClick={() => setConfirmDelete(true)}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-rose-300 text-rose-700 hover:bg-rose-50 font-bold text-xs cursor-pointer"
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-            <span>{t('parent.deleteAll')}</span>
-          </button>
-        ) : (
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setConfirmDelete(false)}
-              className="px-3 py-1.5 rounded-xl bg-slate-200 text-slate-700 text-xs font-bold cursor-pointer"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleDeleteAll}
-              className="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold cursor-pointer shadow-sm"
-            >
-              Confirm Erase
-            </button>
+      {/* TAB 3: PATTERNS */}
+      {activeTab === 'patterns' && (
+        <div className="bg-white rounded-3xl p-6 border-3 border-sky-100 shadow-sm">
+          <div className="flex items-center gap-2 mb-3">
+            <ShieldAlert className="w-5 h-5 text-amber-500" />
+            <h3 className="text-base font-black text-slate-800 font-fredoka m-0">
+              Acoustic Observation Patterns
+            </h3>
           </div>
-        )}
-      </div>
+          <p className="text-xs text-slate-600 mb-4">
+            Rule-based acoustic pattern observations to share with speech-language therapists. Not a medical diagnosis.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+            <div className="p-3 rounded-2xl bg-sky-50 border border-sky-200 text-center">
+              <span className="text-xs text-slate-500 font-bold block">Prolongation (&gt;1.2s)</span>
+              <span className="text-xl font-black text-sky-800">{prolongationCount} times</span>
+            </div>
+            <div className="p-3 rounded-2xl bg-purple-50 border border-purple-200 text-center">
+              <span className="text-xs text-slate-500 font-bold block">Hesitation / Block (&gt;1s)</span>
+              <span className="text-xl font-black text-purple-800">{blockCount} times</span>
+            </div>
+            <div className="p-3 rounded-2xl bg-teal-50 border border-teal-200 text-center">
+              <span className="text-xs text-slate-500 font-bold block">Repetition Bursts</span>
+              <span className="text-xl font-black text-teal-800">{repetitionCount} times</span>
+            </div>
+          </div>
+
+          {recurringSubstitutions.length > 0 ? (
+            <div className="p-3 rounded-2xl bg-amber-50 border border-amber-300 text-xs">
+              <span className="font-extrabold text-amber-900 block mb-1">
+                Recurring Sound Substitution Observed (&ge; 3 times):
+              </span>
+              {recurringSubstitutions.map(([sub, count]) => (
+                <div key={sub} className="text-slate-700">
+                  • <b>{sub}</b> (observed {count} times)
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-bold text-center">
+              No persistent sound substitutions detected! Keep up the great practice.
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

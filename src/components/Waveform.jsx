@@ -17,8 +17,8 @@ export function Waveform({
     let cleanup = null
     if (canvasRef.current && hasPermission) {
       cleanup = drawWaveform(canvasRef.current, {
-        primaryColor: isRecording ? '#EF4444' : '#10B981', // Red when recording, emerald otherwise
-        secondaryColor: isRecording ? '#F87171' : '#34D399',
+        primaryColor: isRecording ? '#EC4899' : '#8B5CF6', // Purple/pink waves
+        secondaryColor: isRecording ? '#F43F5E' : '#38BDF8',
         pacingProgress: isRecording ? pacingProgress : null,
         easyOnset: showEasyOnset,
       })
@@ -29,27 +29,22 @@ export function Waveform({
   }, [hasPermission, isRecording, pacingProgress, showEasyOnset, drawWaveform])
 
   return (
-    <div className="w-full flex flex-col items-center bg-white rounded-3xl p-3 border-4 border-emerald-200 shadow-md">
+    <div className="w-full flex flex-col items-center bg-white rounded-3xl p-3 border-3 border-sky-100 shadow-sm">
       {/* Header Bar */}
       <div className="w-full flex items-center justify-between px-2 mb-2">
         <div className="flex items-center gap-1.5 font-bold text-xs sm:text-sm text-slate-700">
-          <Activity className={`w-4 h-4 ${isRecording ? 'text-red-500 animate-pulse' : 'text-emerald-500'}`} />
+          <Activity
+            className={`w-4 h-4 ${
+              isRecording ? 'text-pink-500 animate-pulse' : 'text-purple-500'
+            }`}
+          />
           <span>{t('practice.waveform')}</span>
         </div>
 
-        {/* Live Recording Badge */}
-        {isRecording && (
-          <div className="flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-red-100 border border-red-300 text-red-700 text-xs font-extrabold animate-pulse">
-            <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />
-            <span>{t('practice.recordingState')}</span>
-          </div>
-        )}
-
-        {showEasyOnset && (
-          <div className="hidden sm:flex items-center gap-1 text-[11px] font-bold text-pink-600 bg-pink-50 px-2 py-0.5 rounded-full border border-pink-200">
-            <span>🌸 Easy-Onset Guide Active</span>
-          </div>
-        )}
+        {/* Timer Display matching mockup */}
+        <div className="font-mono text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full">
+          {isRecording ? '0:02 / 0:06' : '0:00 / 0:06'}
+        </div>
       </div>
 
       {/* Canvas Wave Container */}

@@ -102,6 +102,13 @@ export const useAppStore = create((set, get) => {
       return savedRecord
     },
 
+    addStars: (amount = 3) => {
+      const lang = get().currentLanguage
+      const newStars = StorageService.addStars(lang, amount)
+      set({ stars: newStars })
+      return newStars
+    },
+
     waterPlant: (flowerId) => {
       const lang = get().currentLanguage
       const { gardenState, waterDrops } = get()

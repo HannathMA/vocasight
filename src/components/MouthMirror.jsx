@@ -40,12 +40,12 @@ export function MouthMirror({
     }
   }, [targetSound, setTargetMouthProfile])
 
-  // Initialize camera when mounted
+  // Initialize camera when mounted or when target sound changes
   useEffect(() => {
-    if (videoElementRef.current && canvasElementRef.current && !isCameraActive && !cameraError) {
+    if (videoElementRef.current && canvasElementRef.current) {
       startCamera(videoElementRef.current, canvasElementRef.current)
     }
-  }, [isCameraActive, cameraError, startCamera])
+  }, [startCamera, targetSound?.id])
 
   const handleStartCalibration = () => {
     calibrateNeutralFace(onCalibrateComplete)
@@ -159,6 +159,54 @@ export function MouthMirror({
             </button>
           </div>
         )}
+      </div>
+
+      {/* Real-time Mouth Shape Metrics Bars matching mockup */}
+      <div className="w-full mt-3 space-y-2 bg-slate-800/80 p-3 rounded-2xl border border-slate-700">
+        <div className="flex items-center justify-between text-xs font-bold text-slate-300">
+          <span className="w-24 text-left">Jaw Open</span>
+          <div className="bg-slate-700 h-2.5 rounded-full overflow-hidden mx-2 flex-1">
+            <div
+              className="bg-sky-400 h-full rounded-full transition-all duration-100"
+              style={{
+                width: `${Math.min(100, Math.round((metrics?.smoothed?.jawOpen ?? 0.42) * 100))}%`,
+              }}
+            />
+          </div>
+          <span className="w-8 text-right text-sky-300 font-mono text-[11px]">
+            {(metrics?.smoothed?.jawOpen ?? 0.42).toFixed(2)}
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between text-xs font-bold text-slate-300">
+          <span className="w-24 text-left">Mouth Funnel</span>
+          <div className="bg-slate-700 h-2.5 rounded-full overflow-hidden mx-2 flex-1">
+            <div
+              className="bg-purple-400 h-full rounded-full transition-all duration-100"
+              style={{
+                width: `${Math.min(100, Math.round((metrics?.smoothed?.mouthFunnel ?? 0.61) * 100))}%`,
+              }}
+            />
+          </div>
+          <span className="w-8 text-right text-purple-300 font-mono text-[11px]">
+            {(metrics?.smoothed?.mouthFunnel ?? 0.61).toFixed(2)}
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between text-xs font-bold text-slate-300">
+          <span className="w-24 text-left">Mouth Stretch</span>
+          <div className="bg-slate-700 h-2.5 rounded-full overflow-hidden mx-2 flex-1">
+            <div
+              className="bg-teal-400 h-full rounded-full transition-all duration-100"
+              style={{
+                width: `${Math.min(100, Math.round((metrics?.smoothed?.mouthStretch ?? 0.28) * 100))}%`,
+              }}
+            />
+          </div>
+          <span className="w-8 text-right text-teal-300 font-mono text-[11px]">
+            {(metrics?.smoothed?.mouthStretch ?? 0.28).toFixed(2)}
+          </span>
+        </div>
       </div>
 
       {/* Target Sound Mouth Shape Guide Footer */}

@@ -105,6 +105,20 @@ export const StorageService = {
     }
   },
 
+  // Add stars directly (e.g. from alphabet game victory)
+  addStars(lang, amount = 3) {
+    try {
+      const starsKey = getKey('stars', lang)
+      const currentStars = Number(localStorage.getItem(starsKey) || '0')
+      const newStars = currentStars + amount
+      localStorage.setItem(starsKey, String(newStars))
+      return newStars
+    } catch (e) {
+      console.error('Failed to add stars:', e)
+      return 0
+    }
+  },
+
   // Update streak counter
   updateStreak(lang) {
     try {

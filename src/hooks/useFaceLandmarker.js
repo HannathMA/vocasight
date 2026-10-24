@@ -21,6 +21,7 @@ export function useFaceLandmarker() {
   const landmarkerRef = useRef(null)
   const videoRef = useRef(null)
   const canvasRef = useRef(null)
+  const streamRef = useRef(null)
   const requestAnimationIdRef = useRef(null)
   const smootherRef = useRef(new MouthMetricsSmoother(5))
   const calibrationFramesRef = useRef([])
@@ -73,8 +74,9 @@ export function useFaceLandmarker() {
     }
   }, [])
 
-  // 2. Start Camera Feed
+  // 2. Start Camera Feed (re-attaches live stream smoothly on navigation)
   const startCamera = useCallback(async (videoElement, canvasElement) => {
+    if (!videoElement) return false
     videoRef.current = videoElement
     canvasRef.current = canvasElement
     setCameraError(null)
@@ -82,23 +84,29 @@ export function useFaceLandmarker() {
     try {
       await initLandmarker()
 
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          width: { ideal: 640 },
-          height: { ideal: 480 },
-          facingMode: 'user',
-        },
-        audio: false,
-      })
+      let stream = streamRef.current
+      const isLive = stream && stream.getTracks().some((t) => t.readyState === 'live')
 
-      if (videoElement) {
-        videoElement.srcObject = stream
-        videoElement.onloadedmetadata = () => {
-          videoElement.play()
-          setIsCameraActive(true)
-          startProcessingLoop()
-        }
+      if (!isLive) {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: { ideal: 640 },
+            height: { ideal: 480 },
+            facingMode: 'user',
+          },
+          audio: false,
+        })
+        streamRef.current = stream
       }
+
+      videoElement.srcObject = stream
+      const playPromise = videoElement.play()
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {})
+      }
+      setIsCameraActive(true)
+      startProcessingLoop()
+
       return true
     } catch (err) {
       console.warn('Camera permission denied or camera not found:', err)
@@ -114,8 +122,11 @@ export function useFaceLandmarker() {
       cancelAnimationFrame(requestAnimationIdRef.current)
       requestAnimationIdRef.current = null
     }
-    if (videoRef.current && videoRef.current.srcObject) {
-      videoRef.current.srcObject.getTracks().forEach((track) => track.stop())
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop())
+      streamRef.current = null
+    }
+    if (videoRef.current) {
       videoRef.current.srcObject = null
     }
     setIsCameraActive(false)

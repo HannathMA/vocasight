@@ -1,4 +1,4 @@
-// Elephant teacher: walks in, flaps ears, swings trunk, talks.
+// Elephant teacher: walks in, flaps ears, swings trunk, talks with microphone.
 export default function Elephant({ talking, cheer, size = 260 }) {
   return (
     <div className={`ele ${cheer ? 'cheer' : ''}`} style={{ width: size }}>
@@ -16,6 +16,23 @@ export default function Elephant({ talking, cheer, size = 260 }) {
         <circle cx="78" cy="138" r="10" fill="#ff8fa3" opacity=".6" /><circle cx="182" cy="138" r="10" fill="#ff8fa3" opacity=".6" />
         <ellipse className={talking ? 'mouth talk' : 'mouth'} cx="96" cy="160" rx="15" ry="10" fill="#c1121f" />
         <g><polygon points="130,36 70,58 130,80 190,58" fill="#1d2b64" /><rect x="100" y="60" width="60" height="16" fill="#1d2b64" /><path d="M186 58 V88" stroke="#ffb703" strokeWidth="4" /><circle cx="186" cy="92" r="6" fill="#ffb703" /></g>
+
+        {/* Handheld / Studio Microphone for Tutor */}
+        <g transform="translate(195, 145) rotate(-15)">
+          <rect x="2" y="16" width="7" height="32" rx="3.5" fill="#1e293b" />
+          <rect x="1" y="44" width="9" height="5" rx="2" fill="#475569" />
+          <rect x="-1" y="2" width="13" height="17" rx="6" fill="#64748b" stroke="#cbd5e1" strokeWidth="1.5" />
+          <line x1="-1" y1="8" x2="12" y2="8" stroke="#e2e8f0" strokeWidth="1" />
+          <line x1="-1" y1="13" x2="12" y2="13" stroke="#e2e8f0" strokeWidth="1" />
+          <circle cx="5.5" cy="22" r="2.5" fill={talking ? '#ef4444' : '#10b981'} className={talking ? 'animate-ping' : ''} />
+          {talking && (
+            <g className="animate-pulse">
+              <path d="M 16 4 Q 22 10 16 18" fill="none" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M 21 0 Q 28 10 21 23" fill="none" stroke="#0284c7" strokeWidth="2.5" strokeLinecap="round" />
+            </g>
+          )}
+        </g>
       </svg>
-    </div>)
+    </div>
+  )
 }
